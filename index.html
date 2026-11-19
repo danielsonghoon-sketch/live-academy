@@ -363,7 +363,7 @@ html[data-theme="dark"] .fb.low { color: #fca5a5; }
 .speed button svg { width: 14px; height: 14px; }
 
 .panel { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); padding: 14px; margin-bottom: 12px; }
-.panel h3 { margin: 0 0 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); font-weight: 800; }
+.panel h3 { margin: 0 0 8px; font-size: 11.5px; letter-spacing: .04em; color: var(--text-3); font-weight: 800; }
 .panel p { margin: 0; font-size: 13px; line-height: 1.68; color: var(--text); word-break: keep-all; }
 .panel.nuance { border-left: 3px solid var(--brand); }
 .panel.nuance p { color: var(--text); }
@@ -798,20 +798,20 @@ textarea {
     }).join(' ');
     return { pct: pct, matched: matched, total: n, marks: marks, origOk: origOk };
   }
-  function feedback(pct) {
-    if (pct >= 95) return ['good', '완벽해요. 원어민과 거의 같아요.'];
+  function feedback(pct, hideTarget) {
+    if (pct >= 95) return ['good', hideTarget ? '완벽해요. 영어 문장을 그대로 맞혔어요.' : '완벽해요. 원어민과 거의 같아요.'];
     if (pct >= 80) return ['good', '아주 좋아요. 이 문장은 이제 입에 붙었어요.'];
     if (pct >= 60) return ['mid', '좋아요. 빠진 단어만 다시 한 번 붙여 말해 보세요.'];
     if (pct >= 35) return ['mid', '핵심은 잡았어요. 0.8배속으로 듣고 천천히 따라 해 보세요.'];
     return ['low', '괜찮아요. 먼저 듣고, 한 구절씩 끊어서 말해 보세요.'];
   }
-  function resultHtml(target, said) {
+  function resultHtml(target, said, hideTarget) {
     var ev = evaluate(target, said);
-    var f = feedback(ev.pct);
+    var f = feedback(ev.pct, hideTarget);
     var color = ev.pct >= 80 ? 'var(--ok)' : ev.pct >= 55 ? 'var(--warn)' : 'var(--bad)';
     return '<div class="result">' +
       '<div class="said">내가 말한 문장 · <b>' + esc(said) + '</b></div>' +
-      '<div class="marks">' + ev.marks + '</div>' +
+      (hideTarget ? '' : '<div class="marks">' + ev.marks + '</div>') +
       '<div class="mbar"><i style="width:' + ev.pct + '%;background:' + color + '"></i></div>' +
       '<div class="mscore"><span class="num" style="color:' + color + '">' + ev.pct + '%</span>' +
       '<span>' + ev.matched + '/' + ev.total + ' 단어 일치</span></div>' +
@@ -1016,7 +1016,7 @@ textarea {
       '</div>';
     h += '<div class="typebox" id="type-key" hidden><input data-input="key" type="text" autocomplete="off" autocapitalize="off" placeholder="영어로 입력 후 Enter" />' +
       '<div style="margin-top:8px"><button class="btn block" data-act="submit-type" data-i="key">확인</button></div></div>';
-    if (said) h += '<div id="res-key">' + resultHtml(u.en, said) + '</div>';
+    if (said) h += '<div id="res-key">' + resultHtml(u.en, said, true) + '</div>';
     h += '<div class="mask-hint"><b>힌트</b> 정답을 몰라도 괜찮아요. 말해 본 뒤 2단계에서 비교하면 기억에 오래 남습니다.</div>';
     return h;
   }
@@ -1499,7 +1499,7 @@ textarea {
   function renderLessonPartial() {
     if (!L) return;
     var keyBox = $('#res-key');
-    if (keyBox && L.said.key) keyBox.innerHTML = resultHtml(L.unit.en, L.said.key);
+    if (keyBox && L.said.key) keyBox.innerHTML = resultHtml(L.unit.en, L.said.key, L.step === 1);
     L.unit.variants.forEach(function (v, i) {
       var box = $('#res-v' + i);
       if (box && L.said['v' + i]) box.innerHTML = resultHtml(v.en, L.said['v' + i]);
