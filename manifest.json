@@ -1,0 +1,42 @@
+{
+  "name": "영어뇌 랩 — 라이브 아카데미 스타일 영어 트레이닝",
+  "short_name": "영어뇌 랩",
+  "description": "한국어 상황을 보고 직접 영어로 말한 뒤, 뉘앙스 해설과 변형 드릴로 굳히는 영어 뇌 트레이닝 PWA",
+  "lang": "ko",
+  "dir": "ltr",
+  "start_url": "/live-academy/",
+  "scope": "/live-academy/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0A2239",
+  "background_color": "#EFF5F4",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

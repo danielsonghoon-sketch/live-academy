@@ -1,0 +1,1763 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A2239">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="영어뇌 랩">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="영어뇌 랩 — 라이브 아카데미 스타일로 한국어 상황을 영어로 말하고, 뉘앙스 해설과 변형 드릴로 굳히는 영어 트레이닝 앱">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230A2239'/%3E%3Crect x='18' y='24' width='64' height='42' rx='13' fill='%2310B981'/%3E%3Cpath d='M33 74l14-11h-14z' fill='%2310B981'/%3E%3Ctext x='50' y='54' font-family='Helvetica,Arial,sans-serif' font-size='30' font-weight='700' fill='%23052219' text-anchor='middle'%3EAa%3C/text%3E%3C/svg%3E">
+<title>영어뇌 랩 · 라이브 아카데미 스타일 영어 트레이닝</title>
+<style>
+/* 영어뇌 랩 — deep navy / emerald theme (vanilla CSS, no dependencies) */
+:root {
+  --navy-900: #071a2b;
+  --navy-800: #0a2239;
+  --navy-700: #10314a;
+  --emerald-600: #047857;
+  --emerald-500: #10b981;
+  --emerald-400: #34d399;
+  --emerald-100: #d9f5ea;
+  --bg: #eef4f3;
+  --bg-2: #f8fbfb;
+  --surface: #ffffff;
+  --surface-2: #f3f8f7;
+  --text: #0d2735;
+  --text-2: #5b7683;
+  --text-3: #8ba1ab;
+  --line: #dbe7e6;
+  --line-2: #eaf1f0;
+  --brand: #047857;
+  --brand-soft: #e2f6ee;
+  --on-brand: #ffffff;
+  --ok: #059669;
+  --warn: #b45309;
+  --bad: #dc2626;
+  --bad-soft: #fdecec;
+  --ok-soft: #e6f7f0;
+  --shadow: 0 10px 30px rgba(9, 43, 60, 0.08);
+  --shadow-lg: 0 24px 60px rgba(6, 32, 46, 0.22);
+  --r-lg: 22px;
+  --r-md: 16px;
+  --r-sm: 12px;
+  --tabbar-h: 62px;
+}
+
+html[data-theme="dark"] {
+  --bg: #05141d;
+  --bg-2: #071b26;
+  --surface: #0b2230;
+  --surface-2: #0f2b3a;
+  --text: #e6f2f0;
+  --text-2: #9db6c0;
+  --text-3: #78909b;
+  --line: #17323f;
+  --line-2: #122936;
+  --brand: #34d399;
+  --brand-soft: #0e3a30;
+  --on-brand: #04150f;
+  --emerald-100: #0d3b31;
+  --bad-soft: #3a1a1c;
+  --ok-soft: #0d3a2d;
+  --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; padding: 0; }
+html { background: var(--bg); }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic",
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background:
+    radial-gradient(900px 420px at 78% -8%, rgba(16, 185, 129, 0.16), transparent 62%),
+    radial-gradient(700px 380px at -10% 8%, rgba(13, 61, 90, 0.14), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 52%, var(--bg) 100%);
+  color: var(--text);
+  min-height: 100dvh;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app { max-width: 560px; margin: 0 auto; min-height: 100dvh; display: flex; flex-direction: column; }
+
+/* ------------------------------------------------------------ top bar */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(env(safe-area-inset-top, 0px) + 14px) 18px 12px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s ease;
+}
+.topbar.scrolled { border-bottom-color: var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 12px; flex: none;
+  background: linear-gradient(152deg, #0a2239 6%, #0f4b43 58%, #10b981 100%);
+  color: #eafff6; display: grid; place-items: center;
+  font-weight: 800; font-size: 15px; letter-spacing: -0.03em;
+  box-shadow: 0 6px 16px rgba(7, 45, 39, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.brand-name { font-size: 15.5px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.brand-sub { font-size: 10.5px; color: var(--text-3); letter-spacing: .04em; font-weight: 600; }
+.streak {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 11px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line);
+  font-size: 12.5px; font-weight: 800; color: var(--text);
+  box-shadow: var(--shadow);
+}
+.streak .flame { font-size: 13px; }
+.streak small { font-weight: 600; color: var(--text-2); font-size: 10.5px; }
+.icon-btn {
+  width: 38px; height: 38px; border-radius: 12px; flex: none;
+  display: grid; place-items: center; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--line); color: var(--text-2);
+  transition: transform .15s ease, color .15s ease;
+}
+.icon-btn:active { transform: scale(.94); }
+.icon-btn svg { stroke: currentColor; }
+
+/* ------------------------------------------------------------ content */
+.content { flex: 1; padding: 6px 18px calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px) + 26px); }
+.h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.035em; margin: 10px 0 2px; line-height: 1.32; }
+.h1 em { font-style: normal; color: var(--brand); }
+.sub { margin: 0 0 16px; color: var(--text-2); font-size: 12.5px; }
+.section-title {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--text-3); margin: 24px 2px 10px;
+}
+.section-title span { font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--text-3); }
+
+/* hero */
+.hero {
+  position: relative; overflow: hidden;
+  border-radius: var(--r-lg); padding: 20px;
+  background:
+    radial-gradient(420px 200px at 88% -20%, rgba(52, 211, 153, .45), transparent 62%),
+    radial-gradient(300px 180px at 0% 120%, rgba(16, 185, 129, .22), transparent 70%),
+    linear-gradient(150deg, #071a2b 0%, #0a2239 42%, #0b3a3a 100%);
+  color: #f2fbf8; box-shadow: var(--shadow-lg); margin-top: 6px;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at 82% 18%, rgba(255, 255, 255, .12), transparent 46%);
+  pointer-events: none;
+}
+.hero-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; position: relative; z-index: 1; }
+.hero-kicker { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #8fe3c8; font-weight: 800; }
+.hero-title { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; margin: 6px 0 4px; line-height: 1.35; }
+.hero-note { font-size: 12px; color: rgba(232, 250, 244, .78); margin: 0; }
+.ring { position: relative; width: 66px; height: 66px; flex: none; }
+.ring svg { transform: rotate(-90deg); }
+.ring-track { stroke: rgba(255, 255, 255, .18); }
+.ring-fill { stroke: #4ade9f; stroke-linecap: round; transition: stroke-dashoffset .6s ease; }
+.ring-num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 15px; font-weight: 800; letter-spacing: -0.03em; }
+.hero-bar { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, .17); margin: 16px 0 8px; overflow: hidden; position: relative; z-index: 1; }
+.hero-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #34d399, #a7f3d0); transition: width .5s ease; }
+.hero-foot { display: flex; justify-content: space-between; font-size: 11.5px; color: rgba(224, 246, 240, .72); position: relative; z-index: 1; }
+.hero-cta {
+  position: relative; z-index: 1; margin-top: 16px; width: 100%;
+  border: 0; cursor: pointer; border-radius: 14px; padding: 14px 16px;
+  background: linear-gradient(180deg, #37e0a5, #10b981);
+  color: #04241a; font-weight: 800; font-size: 14.5px; letter-spacing: -0.01em;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 12px 24px rgba(16, 185, 129, .3), inset 0 1px 0 rgba(255, 255, 255, .35);
+  transition: transform .15s ease;
+}
+.hero-cta:active { transform: scale(.985); }
+.hero-cta small { font-weight: 700; opacity: .72; font-size: 12px; }
+
+/* chapter list */
+.chapter {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: 15px 15px 13px; margin-bottom: 12px; box-shadow: var(--shadow);
+  transition: border-color .18s ease, transform .18s ease;
+}
+.chapter.open { border-color: color-mix(in srgb, var(--brand) 42%, var(--line)); }
+.chapter-head { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; }
+.chapter-no {
+  width: 40px; height: 40px; border-radius: 13px; flex: none; display: grid; place-items: center;
+  font-weight: 800; font-size: 13px; letter-spacing: -0.02em;
+  background: var(--brand-soft); color: var(--brand);
+}
+.chapter.open .chapter-no { background: linear-gradient(150deg, #0a2239, #0f766e); color: #e9fff7; }
+.chapter-main { flex: 1; min-width: 0; }
+.chapter-name { font-size: 14.5px; font-weight: 800; letter-spacing: -0.02em; margin: 1px 0 1px; }
+.chapter-sub { font-size: 11.5px; color: var(--text-2); margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chapter-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex: none; }
+.chapter-count { font-size: 11px; font-weight: 800; color: var(--brand); }
+.chev { width: 16px; height: 16px; color: var(--text-3); transition: transform .2s ease; }
+.chapter.open .chev { transform: rotate(180deg); }
+.chapter-bar { height: 4px; border-radius: 99px; background: var(--line-2); margin: 11px 0 0; overflow: hidden; }
+.chapter-bar i { display: block; height: 100%; background: linear-gradient(90deg, #10b981, #6ee7b7); border-radius: 99px; }
+.chapter-body { display: none; margin-top: 12px; }
+.chapter.open .chapter-body { display: block; }
+.chapter-tagline { font-size: 12px; color: var(--text-2); margin: 0 0 10px; line-height: 1.6; }
+
+.unit {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  padding: 11px 10px; border-radius: var(--r-sm); border: 1px solid transparent;
+  background: none; text-align: left; cursor: pointer; color: inherit; font: inherit;
+  transition: background .15s ease;
+}
+.unit + .unit { border-top: 1px solid var(--line-2); border-radius: 0; }
+.unit:active { background: var(--surface-2); }
+.unit-n {
+  width: 24px; height: 24px; border-radius: 8px; flex: none; display: grid; place-items: center;
+  font-size: 11px; font-weight: 800; color: var(--text-3); background: var(--surface-2);
+}
+.unit.done .unit-n { background: var(--brand); color: var(--on-brand); }
+.unit-txt { flex: 1; min-width: 0; }
+.unit-title { font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.38; }
+.unit-ko { font-size: 11px; color: var(--text-3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unit-go { font-size: 11px; font-weight: 800; color: var(--brand); flex: none; }
+.unit.done .unit-go { color: var(--text-3); font-weight: 700; }
+
+/* extras */
+.extras { margin-top: 10px; border-top: 1px dashed var(--line); padding-top: 10px; }
+.extras summary {
+  cursor: pointer; font-size: 12px; font-weight: 800; color: var(--text-2); list-style: none;
+  display: flex; align-items: center; gap: 6px;
+}
+.extras summary::-webkit-details-marker { display: none; }
+.extras summary::before { content: "＋"; color: var(--brand); font-weight: 900; }
+.extras[open] summary::before { content: "－"; }
+.ex { display: flex; gap: 8px; padding: 8px 0 0; font-size: 12.5px; line-height: 1.5; }
+.ex b { color: var(--text); font-weight: 600; }
+.ex span { color: var(--text-2); flex: none; }
+
+/* ------------------------------------------------------------ tab bar */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  display: flex; justify-content: center; gap: 2px;
+  padding: 6px 12px calc(env(safe-area-inset-bottom, 0px) + 6px);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3);
+  border-top: 1px solid var(--line);
+}
+.tabbar button {
+  flex: 1; max-width: 150px; border: 0; background: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 7px 4px; border-radius: 12px;
+  font-size: 10.5px; font-weight: 700; color: var(--text-3); font-family: inherit;
+  transition: color .15s ease, background .15s ease;
+}
+.tabbar button .ico svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tabbar button[aria-current="page"] { color: var(--brand); background: color-mix(in srgb, var(--brand) 9%, transparent); }
+
+/* ------------------------------------------------------------ lesson sheet */
+.lesson {
+  position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column;
+  background: var(--bg-2); animation: sheet .26s cubic-bezier(.2, .8, .3, 1);
+}
+.lesson[hidden] { display: none; }
+@keyframes sheet { from { transform: translateY(22px); opacity: .4; } to { transform: none; opacity: 1; } }
+.lesson-head {
+  display: flex; align-items: center; gap: 10px; padding: calc(env(safe-area-inset-top, 0px) + 12px) 16px 10px;
+  border-bottom: 1px solid var(--line); background: var(--bg-2);
+}
+.lesson-head .icon-btn { width: 34px; height: 34px; border-radius: 10px; }
+.lesson-title { flex: 1; min-width: 0; font-size: 13px; font-weight: 800; letter-spacing: -0.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lesson-title small { display: block; font-size: 10.5px; color: var(--text-3); font-weight: 600; }
+.steps { display: flex; gap: 4px; padding: 0 16px 10px; background: var(--bg-2); }
+.steps i { flex: 1; height: 4px; border-radius: 99px; background: var(--line); transition: background .25s ease; }
+.steps i.on { background: var(--brand); }
+.steps i.past { background: color-mix(in srgb, var(--brand) 42%, var(--line)); }
+.lesson-body { flex: 1; overflow-y: auto; padding: 18px 18px 120px; -webkit-overflow-scrolling: touch; }
+.lesson-foot {
+  position: sticky; bottom: 0; margin: 0; padding: 12px 18px calc(env(safe-area-inset-bottom, 0px) + 14px);
+  background: linear-gradient(180deg, transparent, var(--bg-2) 34%);
+  display: flex; gap: 8px; align-items: center;
+}
+.lesson-foot .btn { flex: 1; }
+.step-label { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 800; color: var(--brand); margin-bottom: 8px; }
+
+/* step 1 */
+.sit {
+  background: linear-gradient(150deg, var(--brand-soft), transparent 130%);
+  border: 1px solid color-mix(in srgb, var(--brand) 22%, var(--line));
+  border-radius: var(--r-md); padding: 13px 14px; margin-bottom: 16px;
+}
+.sit b { display: block; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--brand); margin-bottom: 5px; }
+.sit p { margin: 0; font-size: 13px; color: var(--text); line-height: 1.62; }
+.kobig { font-size: 24px; font-weight: 800; letter-spacing: -0.035em; line-height: 1.42; margin: 0 0 8px; word-break: keep-all; }
+.konote { font-size: 12px; color: var(--text-2); margin: 0 0 18px; }
+.mask-hint {
+  display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--text-3);
+  border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 10px 12px; margin-bottom: 16px;
+}
+.mask-hint b { color: var(--text-2); font-weight: 700; }
+
+.mic-row { display: flex; gap: 8px; }
+.btn {
+  border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  border-radius: 14px; padding: 13px 16px; font: inherit; font-weight: 800; font-size: 14px;
+  cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: transform .14s ease, background .15s ease, border-color .15s ease;
+}
+.btn:active { transform: scale(.985); }
+.btn svg { width: 18px; height: 18px; }
+.btn.primary {
+  background: linear-gradient(180deg, #12c68c, #059669); color: #fff; border-color: transparent;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, .26);
+}
+.btn.primary:disabled { opacity: .45; box-shadow: none; }
+.btn.ghost { background: transparent; }
+.btn.mic { flex: 1; }
+.btn.mic.listening { background: var(--bad-soft); border-color: #fecaca; color: #b91c1c; animation: pulse 1.2s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, .08); } }
+.btn.block { width: 100%; }
+
+.typebox { margin-top: 10px; }
+.typebox input {
+  width: 100%; border: 1px solid var(--line); background: var(--surface); color: var(--text);
+  border-radius: 12px; padding: 12px 13px; font: inherit; font-size: 14px; outline: none;
+}
+.typebox input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 16%, transparent); }
+
+.result { margin-top: 12px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); padding: 13px; }
+.result .said { font-size: 11.5px; color: var(--text-2); margin-bottom: 8px; }
+.result .said b { color: var(--text); font-weight: 700; }
+.marks { font-size: 14px; line-height: 1.7; }
+.marks .w { padding: 0 1px; border-radius: 4px; }
+.marks .w.ok { color: var(--ok); }
+.marks .w.miss { color: #b91c1c; background: var(--bad-soft); text-decoration: underline; text-decoration-style: dotted; }
+.mbar { height: 6px; border-radius: 99px; background: var(--line-2); margin: 10px 0 6px; overflow: hidden; }
+.mbar i { display: block; height: 100%; border-radius: 99px; }
+.mscore { display: flex; justify-content: space-between; align-items: baseline; font-size: 11.5px; color: var(--text-2); }
+.mscore .num { font-size: 17px; font-weight: 800; }
+.fb { margin-top: 9px; font-size: 12px; padding: 9px 11px; border-radius: 10px; background: var(--surface-2); color: var(--text-2); }
+.fb.good { background: var(--ok-soft); color: #065f46; }
+.fb.mid { background: #fff7e6; color: #92400e; }
+.fb.low { background: var(--bad-soft); color: #991b1b; }
+html[data-theme="dark"] .fb.good { color: #7ef0c6; }
+html[data-theme="dark"] .fb.mid { background: #3b2a12; color: #fbd38d; }
+html[data-theme="dark"] .fb.low { color: #fca5a5; }
+
+/* step 2 */
+.encard {
+  position: relative; border-radius: var(--r-lg); padding: 18px 18px 16px;
+  background: linear-gradient(155deg, #0a2239, #0a3340 62%, #0d4a3f);
+  color: #f0fbf7; box-shadow: var(--shadow-lg); margin-bottom: 14px;
+}
+.encard .en { font-size: 21px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.5; margin: 0 0 12px; word-break: keep-all; }
+.encard .en small { display: block; font-size: 12.5px; font-weight: 500; color: rgba(226, 247, 240, .72); margin-top: 7px; letter-spacing: 0; }
+.speed { display: flex; gap: 6px; flex-wrap: wrap; }
+.speed button {
+  border: 1px solid rgba(255, 255, 255, .22); background: rgba(255, 255, 255, .08); color: #eafff7;
+  border-radius: 999px; padding: 7px 12px; font: inherit; font-size: 11.5px; font-weight: 800; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.speed button[aria-pressed="true"] { background: #4ade9f; color: #04241a; border-color: transparent; }
+.speed button svg { width: 14px; height: 14px; }
+
+.panel { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); padding: 14px; margin-bottom: 12px; }
+.panel h3 { margin: 0 0 8px; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-3); font-weight: 800; }
+.panel p { margin: 0; font-size: 13px; line-height: 1.68; color: var(--text); word-break: keep-all; }
+.panel.nuance { border-left: 3px solid var(--brand); }
+.panel.nuance p { color: var(--text); }
+.mistake { display: grid; gap: 8px; }
+.mx { display: flex; gap: 9px; font-size: 12.5px; line-height: 1.55; }
+.mx .tag { flex: none; width: 18px; height: 18px; border-radius: 6px; display: grid; place-items: center; font-size: 11px; font-weight: 900; margin-top: 1px; }
+.mx.bad .tag { background: var(--bad-soft); color: #b91c1c; }
+.mx.good .tag { background: var(--ok-soft); color: var(--ok); }
+.mx.bad .txt { color: var(--text-3); text-decoration: line-through; text-decoration-color: color-mix(in srgb, #dc2626 55%, transparent); }
+.mx.good .txt { color: var(--text); font-weight: 700; }
+.why { margin: 4px 0 0; font-size: 12px; color: var(--text-2); line-height: 1.62; }
+
+/* step 3 */
+.drill-intro { font-size: 12.5px; color: var(--text-2); margin: 0 0 12px; }
+.vcard { border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); padding: 13px; margin-bottom: 10px; }
+.vcard-head { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 9px; }
+.vnum { flex: none; width: 20px; height: 20px; border-radius: 7px; background: var(--brand-soft); color: var(--brand); font-size: 10.5px; font-weight: 900; display: grid; place-items: center; }
+.ven { flex: 1; font-size: 14.5px; font-weight: 700; line-height: 1.5; letter-spacing: -0.01em; word-break: keep-all; }
+.vko { font-size: 11.5px; color: var(--text-2); margin-left: 28px; }
+.vacts { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+.mini {
+  border: 1px solid var(--line); background: var(--surface-2); color: var(--text-2);
+  border-radius: 9px; padding: 6px 10px; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.mini svg { width: 13px; height: 13px; }
+.mini.listening { background: var(--bad-soft); color: #b91c1c; border-color: #fecaca; }
+.mini.done { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+
+/* step 4 */
+.done-wrap { text-align: center; padding: 14px 4px; }
+.done-badge {
+  width: 76px; height: 76px; margin: 6px auto 14px; border-radius: 50%;
+  background: linear-gradient(155deg, #0a2239, #0f766e 60%, #34d399);
+  display: grid; place-items: center; color: #eafff7; box-shadow: 0 16px 34px rgba(16, 185, 129, .3);
+}
+.done-badge svg { width: 34px; height: 34px; }
+.done-wrap h2 { font-size: 20px; letter-spacing: -0.03em; margin: 0 0 6px; }
+.done-wrap p { font-size: 13px; color: var(--text-2); margin: 0 0 18px; }
+.recap { text-align: left; border: 1px solid var(--line); background: var(--surface); border-radius: var(--r-md); padding: 14px; margin-bottom: 14px; }
+.recap .rrow { display: flex; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--line-2); font-size: 12.5px; }
+.recap .rrow:last-child { border-bottom: 0; }
+.recap .rrow b { color: var(--brand); flex: none; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; padding-top: 3px; width: 42px; }
+.recap .rrow span { color: var(--text); line-height: 1.5; }
+
+/* ------------------------------------------------------------ review */
+.review-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px; box-shadow: var(--shadow); }
+.review-card h2 { margin: 0 0 6px; font-size: 17px; letter-spacing: -0.02em; }
+.review-card p { margin: 0 0 14px; font-size: 12.5px; color: var(--text-2); }
+.seg { display: flex; gap: 6px; background: var(--surface-2); padding: 4px; border-radius: 12px; margin-bottom: 14px; }
+.seg button {
+  flex: 1; border: 0; background: none; border-radius: 9px; padding: 9px 6px; cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 800; color: var(--text-2);
+}
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: 0 2px 8px rgba(9, 43, 60, .08); }
+.quiz-q { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.4; margin: 0 0 4px; word-break: keep-all; }
+.quiz-sit { font-size: 12px; color: var(--text-2); margin: 0 0 14px; }
+.qmeta { display: flex; justify-content: space-between; font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; color: var(--text-3); margin-bottom: 10px; }
+.opt {
+  display: block; width: 100%; text-align: left; border: 1px solid var(--line); background: var(--surface);
+  border-radius: 13px; padding: 12px 13px; margin-bottom: 8px; font: inherit; font-size: 13.5px;
+  color: var(--text); cursor: pointer; line-height: 1.45; transition: border-color .15s ease, background .15s ease;
+}
+.opt:active { background: var(--surface-2); }
+.opt.right { border-color: var(--ok); background: var(--ok-soft); font-weight: 700; }
+.opt.wrong { border-color: #f3b4b4; background: var(--bad-soft); }
+.opt:disabled { cursor: default; }
+.qresult { margin-top: 6px; font-size: 12.5px; color: var(--text-2); }
+.score-big { font-size: 40px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--brand); }
+
+/* ------------------------------------------------------------ stats */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 13px 10px; text-align: center; }
+.stat b { display: block; font-size: 20px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; }
+.stat span { font-size: 10.5px; color: var(--text-2); font-weight: 600; }
+.streakbox {
+  display: flex; align-items: center; gap: 14px; margin-top: 12px; padding: 15px;
+  border-radius: var(--r-md); border: 1px solid var(--line); background: var(--surface);
+}
+.streakbox .big { font-size: 30px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.streakbox .lbl { font-size: 11.5px; color: var(--text-2); }
+.bars { display: flex; align-items: flex-end; gap: 5px; height: 74px; margin-top: 10px; padding: 10px 4px 0; }
+.bars div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+.bars i { display: block; width: 100%; border-radius: 5px 5px 3px 3px; background: color-mix(in srgb, var(--brand) 28%, var(--line-2)); min-height: 3px; }
+.bars i.on { background: linear-gradient(180deg, #34d399, #059669); }
+.bars span { font-size: 8.5px; color: var(--text-3); font-weight: 700; }
+.chprog { margin-top: 10px; }
+.chprog .row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-2); font-size: 12.5px; }
+.chprog .row:last-child { border-bottom: 0; }
+.chprog .nm { flex: 1; font-weight: 700; }
+.chprog .ct { font-size: 11px; color: var(--text-2); font-weight: 700; }
+.chprog .track { width: 74px; height: 5px; border-radius: 99px; background: var(--line-2); overflow: hidden; }
+.chprog .track i { display: block; height: 100%; background: linear-gradient(90deg, #10b981, #6ee7b7); }
+
+/* ------------------------------------------------------------ modal */
+.modal { position: fixed; inset: 0; z-index: 70; display: flex; align-items: flex-end; justify-content: center; }
+.modal[hidden] { display: none; }
+.modal-bg { position: absolute; inset: 0; background: rgba(4, 18, 28, .48); backdrop-filter: blur(3px); }
+.sheet {
+  position: relative; width: 100%; max-width: 560px; max-height: 88dvh; overflow-y: auto;
+  background: var(--bg-2); border-radius: 24px 24px 0 0; padding: 10px 18px calc(env(safe-area-inset-bottom, 0px) + 22px);
+  box-shadow: var(--shadow-lg); animation: up .25s cubic-bezier(.2, .8, .3, 1);
+}
+@keyframes up { from { transform: translateY(40px); } to { transform: none; } }
+.sheet-grab { width: 40px; height: 4px; border-radius: 99px; background: var(--line); margin: 4px auto 14px; }
+.sheet h2 { font-size: 17px; letter-spacing: -0.02em; margin: 0 0 14px; }
+.field { margin-bottom: 16px; }
+.field > label { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); font-weight: 800; margin-bottom: 7px; }
+.field .hint { font-size: 11.5px; color: var(--text-2); margin: 6px 0 0; line-height: 1.55; }
+.switch { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--line-2); }
+.switch:last-child { border-bottom: 0; }
+.switch span { font-size: 13.5px; font-weight: 700; }
+.switch small { display: block; font-size: 11px; color: var(--text-2); font-weight: 500; }
+.tgl { width: 46px; height: 27px; border-radius: 99px; border: 0; background: var(--line); position: relative; cursor: pointer; flex: none; transition: background .18s ease; }
+.tgl::after { content: ""; position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: transform .18s ease; }
+.tgl[aria-checked="true"] { background: var(--brand); }
+.tgl[aria-checked="true"]::after { transform: translateX(19px); }
+textarea {
+  width: 100%; min-height: 92px; border: 1px solid var(--line); border-radius: 12px; padding: 11px;
+  font: inherit; font-size: 11.5px; background: var(--surface); color: var(--text); resize: vertical; line-height: 1.5;
+}
+.danger { color: #b91c1c; border-color: #f3c7c7; }
+.small { font-size: 11px; color: var(--text-3); line-height: 1.6; margin: 8px 0 0; }
+
+/* toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(var(--tabbar-h) + 26px); transform: translate(-50%, 12px);
+  z-index: 90; max-width: 86vw; padding: 11px 16px; border-radius: 12px;
+  background: #0a2239; color: #eafff7; font-size: 12.5px; font-weight: 600; line-height: 1.45;
+  box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: opacity .2s ease, transform .2s ease;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (min-width: 640px) {
+  .lesson { max-width: 560px; margin: 0 auto; border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+  .tabbar { max-width: 560px; margin: 0 auto; border-radius: 0; }
+  .kobig { font-size: 27px; }
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">Aa</div>
+      <div>
+        <div class="brand-name">영어뇌 랩</div>
+        <div class="brand-sub">ENGLISH BRAIN LAB</div>
+      </div>
+    </div>
+    <div class="streak" id="streakBox" title="연속 학습">
+      <span class="flame" aria-hidden="true">🔥</span>
+      <span id="streakNum">0</span><small>일</small>
+    </div>
+    <button class="icon-btn" data-act="settings" aria-label="설정">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:21px;height:21px"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.88V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </header>
+  <main id="main" class="content"></main>
+  <nav class="tabbar" aria-label="메인 탭">
+    <button data-act="tab" data-tab="home" aria-current="page">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H10a3 3 0 0 1 2 5.2V20a3 3 0 0 0-2-1H5.5A1.5 1.5 0 0 1 4 17.5v-12z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H14a3 3 0 0 0-2 5.2V20a3 3 0 0 1 2-1h4.5a1.5 1.5 0 0 0 1.5-1.5v-12z"/></svg></span>
+      학습
+    </button>
+    <button data-act="tab" data-tab="review">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 10a7 7 0 0 1 12-4l2 2"/><path d="M18 4v4h-4"/><path d="M20 14a7 7 0 0 1-12 4l-2-2"/><path d="M6 20v-4h4"/></svg></span>
+      복습
+    </button>
+    <button data-act="tab" data-tab="stats">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M4 19.5h16"/><path d="M7 19V11"/><path d="M12 19V5.5"/><path d="M17 19v-5"/></svg></span>
+      기록
+    </button>
+  </nav>
+</div>
+
+<div id="lesson" class="lesson" hidden></div>
+<div id="modal" hidden></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script id="app-data" type="application/json">{"app":"English Brain Lab","chapters":[{"id":"c1","name":"영어 뇌 깨우기 ①","subtitle":"직역의 함정 — 한국어를 듣고 영어가 먼저 튀어나오게","tagline":"한국어 문장을 보고 3초 안에 영어로 바꿔 보세요. 직역이 안 되는 문장일수록 영어식 사고의 틀이 드러납니다.","units":[{"n":1,"title":"별일이 있겠어?","situation":"친구가 별것 아닌 일로 걱정할 때, 어깨를 툭 치며 안심시키는 상황","ko":"별일이 있겠어?","en":"What could go wrong?","nuance":"직역하면 '무엇이 잘못될 수 있겠느냐'지만, 실제로는 '걱정할 일이 뭐가 있겠어'라는 가벼운 자신감입니다. could를 써서 '혹시 생길 수도 있는 일'을 낮게 깔아 버리는 느낌이 핵심이에요. 더 세게 밀어붙일 때는 What's the worst that could happen?","mistake":{"x":"Is there any big thing?","o":"What could go wrong?","why":"한국어 '별일'이라는 명사에 매달리면 영어가 안 나옵니다. 영어는 '무엇이 잘못될 수 있나'라는 의문문 틀로 상황을 통째로 처리해요."},"variants":[{"en":"What's the worst that could happen?","ko":"최악의 경우가 뭐겠어?"},{"en":"Nothing's going to go wrong.","ko":"아무 일도 안 생길 거야."},{"en":"What could possibly go wrong?","ko":"대체 뭐가 잘못되겠어? (비꼬는 말로도 씀)"},{"en":"Don't worry, it'll be fine.","ko":"걱정 마, 잘 될 거야."}]},{"n":2,"title":"이제 와서 돌아갈 순 없지","situation":"이미 너무 멀리 와서 중간에 포기하거나 되돌아갈 수 없을 때","ko":"이제 와서 돌아갈 순 없지","en":"There's no turning back now.","nuance":"turn back은 '되돌아가다'. There's no ~ing는 '~하는 것은 없다'는 단정입니다. 실제로 걸어서 돌아가는 상황에도, 프로젝트나 인생의 진로에도 똑같이 씁니다. '돌아가기엔 너무 멀리 왔다'는 뉘앙스를 더하려면 We've come too far to turn back now.","mistake":{"x":"We can't go back now that we came.","o":"There's no turning back now.","why":"문법적으로 틀린 건 아니지만 원어민은 이 상황에서 There's no turning back으로 짧게 끊습니다. 길게 풀어 쓰면 말이 무거워져요."},"variants":[{"en":"We can't turn back now.","ko":"이제 돌아갈 수 없어."},{"en":"There's no going back now.","ko":"이제 되돌릴 수 없어. (go back이 더 구어적)"},{"en":"We've come too far to turn back now.","ko":"돌아가기엔 너무 멀리 왔어."},{"en":"It's too late to back out now.","ko":"이제 빠지기엔 너무 늦었어."}]},{"n":3,"title":"재밌는 부분은 아직 나오지도 않았어","situation":"영화나 드라마를 같이 보는데 상대가 벌써 재미없다고 할 때","ko":"재밌는 부분은 아직 나오지도 않았어","en":"We haven't even gotten to the good part yet.","nuance":"한국어는 '부분이 아직 나오지 않았다'고 하지만, 영어는 '우리가 그 부분에 아직 도달하지 못했다'고 시점을 옮깁니다. even과 yet이 '아직'의 억울함을 만들어요. 영상 자체를 주어로 하면 It hasn't even gotten to the good part yet.","mistake":{"x":"The fun part didn't come out yet.","o":"We haven't even gotten to the good part yet.","why":"come out은 '세상에 공개되다'라서 영화의 한 장면에는 안 맞습니다. get to는 '그 지점에 도달하다'예요."},"variants":[{"en":"It hasn't even gotten to the good part yet.","ko":"좋은 부분은 아직 시작도 안 했어. (영상이 주어)"},{"en":"We haven't even gotten to the best part yet.","ko":"제일 좋은 부분은 아직이야."},{"en":"The fun part hasn't even started yet.","ko":"재밌는 건 이제 시작도 안 했어."},{"en":"Wait till you see the good part.","ko":"좋은 부분 보면 놀랄걸."}]},{"n":4,"title":"넌 도대체 걔가 어디가 그렇게 좋은 거야?","situation":"친구가 어떤 사람을 너무 좋아하는데, 도무지 이해가 안 될 때","ko":"넌 도대체 걔가 어디가 그렇게 좋은 거야?","en":"What is it about her that you like so much?","nuance":"why로 물으면 '이유' 전체를 묻지만, What is it about ~는 '그 사람의 어느 부분'을 콕 집어 묻는 틀입니다. about이 붙어 '그 사람에 관한 무엇'이라는 느낌을 만들어요. What is it about what she said that bothers you so much?처럼 말에도 그대로 씁니다.","mistake":{"x":"Where is she good?","o":"What is it about her that you like so much?","why":"'어디가'를 where로 옮기면 장소를 묻는 말이 됩니다. 사람의 어떤 점을 묻는 '어디'는 what is it about으로 풀어야 해요."},"variants":[{"en":"What do you like so much about her?","ko":"걔 뭐가 그렇게 좋아?"},{"en":"What is it about this that you hate so much?","ko":"이게 뭐가 그렇게 싫은 거야?"},{"en":"What is it about what she said that bothers you so much?","ko":"걔가 한 말이 뭐가 그렇게 거슬려?"},{"en":"What's so special about him?","ko":"걔가 뭐가 그렇게 특별해?"}]},{"n":5,"title":"우리 지금 그런 거 신경 쓸 때가 아니야","situation":"일이 급한데 누군가 사소한 걸로 따지기 시작할 때","ko":"우리 지금 그런 거 신경 쓸 때가 아니야","en":"We've got more important things to worry about right now.","nuance":"한국어는 '때가 아니다'라고 때를 부정하지만, 영어는 '지금 신경 쓸 더 중요한 것들이 있다'로 주어를 바꿉니다. 이 관점 전환이 영어 뇌의 핵심이에요. have got은 회화에서 have보다 자주 나옵니다.","mistake":{"x":"It's not the time to care about that.","o":"We've got more important things to worry about right now.","why":"'때가 아니다'를 그대로 옮기면 번역투가 됩니다. 원어민은 '우리에겐 더 중요한 게 있다'는 쪽으로 말해요."},"variants":[{"en":"This isn't the time for that.","ko":"그런 걸 따질 때가 아니야."},{"en":"We have bigger things to worry about.","ko":"더 큰 걱정거리가 있어."},{"en":"Let's not get into that right now.","ko":"그건 지금 얘기하지 말자."},{"en":"That's the least of our problems.","ko":"그건 우리 문제 중에 제일 작은 거야."}]},{"n":6,"title":"친구라고 해서 생각이 항상 같아야 하는 건 아니지","situation":"친구끼리 의견이 다른 걸 두고 한쪽이 서운해할 때","ko":"친구라고 해서 생각이 항상 같아야 하는 건 아니지","en":"Just because she's your friend doesn't mean you always have to agree with her.","nuance":"Just because A doesn't mean B는 'A라고 해서 B인 건 아니다'라는 통째로 외워야 하는 틀입니다. agree with는 사람·의견에 동의, agree to는 제안·조건에 동의. 이 전치사 하나로 뜻이 갈려요.","mistake":{"x":"Even though you are friends, you don't have to think same.","o":"Just because you're friends doesn't mean you have to agree on everything.","why":"think same은 영어에 없는 조합이고, even though는 '비록 ~지만'이라 뉘앙스가 다릅니다. '~라고 해서'는 just because로 받아요."},"variants":[{"en":"Just because you're friends doesn't mean you have to agree on everything.","ko":"친구라고 모든 것에 동의해야 하는 건 아니야."},{"en":"That doesn't mean she always has to agree with you.","ko":"그렇다고 걔가 항상 너한테 맞춰야 하는 건 아니야."},{"en":"Just because it's cheap doesn't mean it's bad.","ko":"싸다고 해서 나쁜 건 아니야."},{"en":"It's not like he knows what he's doing.","ko":"걔가 뭘 알고 그러는 게 아니잖아."}]},{"n":7,"title":"간당간당할 줄은 알았는데 끝낼 수 있을 줄 알았어","situation":"마감이 아슬아슬했지만 어찌어찌 끝낼 거라 믿었던 일을 돌아볼 때","ko":"간당간당할 줄은 알았는데 난 그래도 그때까지는 끝낼 수 있을 줄 알았어","en":"I knew I would be cutting it close, but I still thought I could finish it by then.","nuance":"cut it close는 시간이나 여유를 '아슬아슬하게 자른다'는 그림입니다. would be cutting으로 진행형을 쓰면 '그 순간 내내 아슬아슬할 걸 알고 있었다'는 느낌이 살아요. 명사로는 a close call(큰일 날 뻔함).","mistake":{"x":"I knew it would be dangerous but I thought I could finish.","o":"I knew I would be cutting it close.","why":"dangerous는 '위험한'이라 시간이 촉박한 상황과 결이 다릅니다. 이럴 때 쓰는 고정 표현이 cut it close예요."},"variants":[{"en":"I knew it was going to be tight, but I thought I'd make it.","ko":"빡빡할 줄 알았는데 해낼 줄 알았어."},{"en":"I'm cutting it close, but I'll make it.","ko":"아슬아슬하지만 될 거야."},{"en":"That was a close call.","ko":"큰일 날 뻔했어."},{"en":"We're cutting it too close.","ko":"너무 아슬아슬해."}]},{"n":8,"title":"나도 그거 당해 봤어","situation":"상대가 겪은 황당한 일을 듣고 공감할 때","ko":"나도 그거 당해 봤어","en":"I've had that happen to me too.","nuance":"have + 목적어 + 동사원형(happen)으로 '그런 일이 나에게 일어나게 겪었다'는 수동적 경험을 만듭니다. 질문으로도 자주 써요. Have you had this happen to you too? 한 발 물러서 사실만 말할 땐 That's happened to me too.","mistake":{"x":"I was also hit by that.","o":"I've had that happen to me too.","why":"hit은 물리적으로 맞은 느낌이라 일상적인 '당하다'와 다릅니다. 경험은 have + 목적어 + 동사원형으로 담아요."},"variants":[{"en":"That's happened to me too.","ko":"나도 그런 적 있어."},{"en":"Have you had this happen to you too?","ko":"너도 이런 일 겪어 봤어?"},{"en":"I've had that happen to me more than once.","ko":"나도 그거 한두 번 당한 게 아니야."},{"en":"It's happened to all of us.","ko":"우리 모두 겪는 일이야."}]},{"n":9,"title":"어쩐지 뭔가 안 맞는다 했어","situation":"설명을 듣고 나서야 앞뒤가 안 맞았던 이유를 알았을 때","ko":"어쩐지 뭔가 안 맞는다 했어","en":"No wonder I knew something didn't add up.","nuance":"No wonder는 '어쩐지 ~더라'. add up은 숫자나 이야기가 '맞아떨어지다'입니다. 감정이 이상했다는 쪽이면 something didn't feel right, 전체가 이제 이해된다면 It all adds up now.","mistake":{"x":"I thought something is not correct.","o":"No wonder I knew something didn't add up.","why":"'안 맞는다'는 correct(정확하다)가 아니라 add up(계산이 맞다)이나 feel right(느낌이 맞다)으로 표현해요."},"variants":[{"en":"No wonder something felt off.","ko":"어쩐지 뭔가 이상하더라."},{"en":"Something didn't add up.","ko":"뭔가 앞뒤가 안 맞았어."},{"en":"It all adds up now.","ko":"이제 다 맞아떨어지네."},{"en":"Something doesn't feel right about this.","ko":"이거 뭔가 이상해."}]},{"n":10,"title":"오, 이런 기능도 생겼네","situation":"익숙한 앱이나 기기에 새로운 기능이 생긴 걸 발견했을 때","ko":"오, 이런 기능도 생겼네","en":"Looks like they've added a new feature.","nuance":"Looks like는 '보아하니 ~인 것 같다'. they는 기능을 만든 불특정한 사람들입니다. have added(완료)를 쓰는 이유는 과거에 추가했지만 지금 이 자리에 그 기능이 있기 때문이에요. 기기를 주어로 하면 It looks like it's gotten a new feature.","mistake":{"x":"Oh, this function is newly made.","o":"Looks like they've added a new feature.","why":"function은 수학적 기능에 가깝고, 앱의 기능은 feature입니다. newly made는 '새로 제작됐다'라서 방금 생긴 변화의 느낌이 없어요."},"variants":[{"en":"It looks like it's got a new feature.","ko":"새 기능이 생긴 것 같아. (기기가 주어)"},{"en":"It looks like it's learned a new trick.","ko":"뭔가 새로운 걸 배운 모양이야. (귀엽게)"},{"en":"I can do this now.","ko":"와, 이제 이런 것도 되네."},{"en":"They must have updated it.","ko":"업데이트했나 봐."}]},{"n":11,"title":"연락할게","situation":"헤어지기 전, 방법을 정하지 않고 '나중에 연락하겠다'고 말할 때","ko":"연락할게","en":"I'll be in touch.","nuance":"전화인지 메일인지 정하지 않은 '연락할게'는 be in touch입니다. 방법을 정하면 I'll get in touch with you by email처럼 붙여요. contact는 타동사라서 contact to you가 아니라 contact you.","mistake":{"x":"I'll contact to you.","o":"I'll be in touch.","why":"contact 뒤에 to를 붙이면 틀립니다. contact you 또는 be in touch로 써요."},"variants":[{"en":"I'll be in touch soon.","ko":"곧 연락할게."},{"en":"I'll get in touch with you by email.","ko":"이메일로 연락할게."},{"en":"Let's stay in touch.","ko":"계속 연락하고 지내자."},{"en":"I'll let you know as soon as I hear back.","ko":"회신 오는 대로 알려줄게."}]}],"extras":[{"en":"This will have to do for now.","ko":"이걸로 버텨봐야겠다. (임시로 이 정도면 되겠다)"},{"en":"Did you bring something to change into?","ko":"갈아입을 거 가져왔어?"},{"en":"I've never seen anybody do it like that before.","ko":"저렇게 하는 사람 처음 보네."},{"en":"I have some time to kill right now anyway.","ko":"나 어차피 지금 시간 좀 남아."},{"en":"Don't tell me this happened again.","ko":"설마 또 이런 일이 생긴 거야?"},{"en":"I don't like this place. Let's go.","ko":"여기 마음에 안 들어. 가자."},{"en":"I feel like I've been more than patient.","ko":"난 충분히, 그 이상으로 참은 것 같아."},{"en":"I think I've had enough.","ko":"나 이제 됐어. 더는 못 참아."},{"en":"I'm not putting up with it anymore.","ko":"이제 더는 못 참겠어."},{"en":"Will this do?","ko":"이거면 되겠어?"},{"en":"I'm not asking for a lot.","ko":"내가 많은 걸 바라는 게 아니잖아."},{"en":"It was the hardest decision I ever had to make.","ko":"살면서 가장 힘들었던 결정이었어요."}]},{"id":"c2","name":"영어 뇌 깨우기 ②","subtitle":"일상의 상황과 감정 — 말투의 온도를 맞추는 표현","tagline":"같은 뜻도 어떤 단어를 고르느냐에 따라 다정하게도, 퉁명스럽게도 들립니다. 상황에 맞는 온도를 익혀 보세요.","units":[{"n":1,"title":"설마 또 잃어버린 거야?","situation":"물건을 자꾸 잃어버리는 사람이 또 그랬을 것 같아 물을 때","ko":"설마 또 잃어버린 거야?","en":"Don't tell me you lost it again.","nuance":"Don't tell me ~는 '설마 ~인 건 아니지'라는 놀람·체념의 표현입니다. 상대가 말하기 전에 먼저 결론을 던져 버리는 느낌이에요. '말하지 마'라는 금지가 아니니 말투에 주의하세요.","mistake":{"x":"Really again lost?","o":"Don't tell me you lost it again.","why":"한국어 어순을 그대로 옮기면 영어가 되지 않습니다. '설마'는 Don't tell me로 문장 앞에 붙여요."},"variants":[{"en":"Don't tell me this happened again.","ko":"설마 또 이런 일이 생긴 거야?"},{"en":"Don't tell me you forgot.","ko":"설마 잊어버린 거야?"},{"en":"You didn't lose it again, did you?","ko":"또 잃어버린 거 아니지?"},{"en":"I can't believe this is happening again.","ko":"또 이런 일이 생기다니."}]},{"n":2,"title":"별일 아니면 좋겠다","situation":"상대가 몸이 안 좋다거나 문제가 생겼다는 말을 들었을 때","ko":"별일 아니야 될 텐데","en":"I hope it isn't anything serious.","nuance":"'심각한 것'은 anything serious. I hope 뒤에 현재형(isn't)을 쓰면 지금 벌어진 일이 별일 아니길 바란다는 뜻이 됩니다. 가볍게 안심시킬 땐 It's probably nothing.","mistake":{"x":"I hope it is not big thing.","o":"I hope it isn't anything serious.","why":"'큰일'을 big thing으로 옮기면 어색합니다. 심각도는 serious로 말해요."},"variants":[{"en":"I hope it's nothing serious.","ko":"별일 아니길 바라."},{"en":"It's probably nothing.","ko":"아마 별일 아닐 거야."},{"en":"Let's hope it's not serious.","ko":"심각한 거 아니길 바라자."},{"en":"I'm sure it's nothing.","ko":"분명 별일 아닐 거야."}]},{"n":3,"title":"전 여기가 좋아요","situation":"새로 온 곳에서 '여기 마음에 드세요?'라고 물었을 때","ko":"전 여기가 좋아요","en":"I like it here.","nuance":"here는 부사처럼 보이지만 like의 목적어 자리에 it을 먼저 두고 here를 붙입니다. like here라고 하면 틀려요. '점점 좋아진다'는 This place is growing on me.","mistake":{"x":"I like here.","o":"I like it here.","why":"like는 목적어가 필요한 동사라서 it이 있어야 합니다. here는 그 뒤에 붙는 위치 표현이에요."},"variants":[{"en":"I like working here.","ko":"여기서 일하는 게 좋아요."},{"en":"I don't really like it here.","ko":"여기는 별로 마음에 안 들어요."},{"en":"This place is growing on me.","ko":"이 곳이 점점 좋아지네요."},{"en":"I could get used to this.","ko":"이거 익숙해질 것 같아요."}]},{"n":4,"title":"여기 사람들은 다들 저한테 잘해 줘요","situation":"새 직장이나 새 동네 사람들이 친절하다고 말할 때","ko":"여기 사람들은 다들 저한테 잘해 줘요","en":"Everyone here treats me nice.","nuance":"treat + 사람 + 형용사(nice)로 '대하다'의 결과 상태를 말합니다. treat me nicely도 맞지만 회화에서는 nice가 자연스러워요. 수동으로 Everyone here is really nice to me도 자주 씁니다.","mistake":{"x":"Everyone here does me well.","o":"Everyone here treats me nice.","why":"do me well은 '나를 잘 돌본다'는 다른 뜻으로 들립니다. 사람을 대하는 태도는 treat를 써요."},"variants":[{"en":"Everyone here is really nice to me.","ko":"여기 사람들 모두 저한테 정말 잘해 줘요."},{"en":"They treat me like family.","ko":"가족처럼 대해 줘요."},{"en":"People here are friendly.","ko":"여기 사람들은 친절해요."},{"en":"Everyone's been very kind to me.","ko":"모두 저한테 아주 잘해 주셨어요."}]},{"n":5,"title":"이거 킴한테 꼭 좀 전해 줄래?","situation":"중요한 서류나 물건을 반드시 그 사람 손에 들어가게 해 달라고 부탁할 때","ko":"이거 킴한테 꼭 좀 전해 줄래?","en":"Could you please make sure Kim gets this?","nuance":"make sure + 사람 + gets + 물건은 '킴이 이걸 받도록 확실히 해 줘'라는 틀입니다. give it to Kim은 단순 전달이지만, make sure가 들어가면 '꼭 챙겨 달라'는 책임이 붙어요.","mistake":{"x":"Could you please give Kim this for sure?","o":"Could you please make sure Kim gets this?","why":"for sure는 '확실히'라는 부사로 문장 끝에 쓰지만, '확실히 해 달라'는 부탁은 make sure로 동사를 만들어야 합니다."},"variants":[{"en":"Could you make sure Kim gets this?","ko":"킴한테 이거 꼭 전달해 줄래?"},{"en":"Can you pass this on to Kim?","ko":"이거 킴한테 전달해 줄 수 있어?"},{"en":"Please make sure this gets to Kim.","ko":"이게 꼭 킴에게 전달되게 해 주세요."},{"en":"Would you mind giving this to Kim?","ko":"이거 킴한테 좀 전해 주시겠어요?"}]},{"n":6,"title":"난 충분히 참은 거 같아","situation":"더는 참기 어려워서 한계를 이야기할 때","ko":"난 충분히 참은 거 같아","en":"I feel like I've been patient enough.","nuance":"feel like + 절은 '내 느낌엔 ~인 것 같다'. have been patient(완료)로 지금까지 참아 온 상태를 담고, enough가 '이제 한계'라는 신호를 보냅니다. 더 강하게는 I've had enough.","mistake":{"x":"I think I waited enough.","o":"I feel like I've been patient enough.","why":"wait는 물리적으로 기다린 것, patient는 참고 견딘 태도입니다. 감정의 한계를 말할 땐 patient를 써요."},"variants":[{"en":"I feel like I've been more than patient.","ko":"난 충분히, 그 이상으로 참은 것 같아."},{"en":"I think I've had enough.","ko":"나 이제 됐어."},{"en":"I've been patient long enough.","ko":"충분히 참았어."},{"en":"I'm not putting up with it anymore.","ko":"이제 더는 못 참겠어."}]},{"n":7,"title":"그 사람이 뭘 했길래 사람들이 그렇게 화가 난 거야?","situation":"모두가 화가 났는데 이유를 모를 때, 원인을 캐물을 때","ko":"그 사람이 뭘 했길래 사람들이 그렇게 화가 난 거야?","en":"What did he do that got people so mad?","nuance":"What did he do that ~은 '무엇을 했길래 ~하게 만들었나'라는 인과 질문입니다. get + 사람 + 형용사(mad)는 '~하게 만들다'. make people mad와 비슷하지만 get은 감정이 옮겨 붙는 느낌이에요.","mistake":{"x":"What did he do and people are so angry?","o":"What did he do that got people so mad?","why":"and로 두 문장을 이으면 인과가 드러나지 않습니다. that절로 '~하게 만든' 결과를 붙여요."},"variants":[{"en":"What did he do to make people so mad?","ko":"걔가 뭘 해서 사람들을 그렇게 화나게 한 거야?"},{"en":"What did she say that upset everyone?","ko":"걔가 뭐라고 해서 다들 속상하게 한 거야?"},{"en":"How did that get everyone so angry?","ko":"그게 어떻게 다들 그렇게 화나게 만든 거야?"},{"en":"What set them off like that?","ko":"뭐가 그렇게 건드린 거야?"}]},{"n":8,"title":"업자 불러서 창문 하나내는 거 어떨까?","situation":"집의 오래된 문제를 두고 함께 해결책을 꺼낼 때","ko":"우리 화장실 벽에 여름마다 곰팡이 피잖아. 우리 그냥 업자 불러서 거기 창문 하나내는 거 어떨까?","en":"You know how our bathroom walls collect mold every summer. What if we hired a contractor and just put a window in there?","nuance":"You know how ~는 '있잖아, 우리 ~하잖아'라며 둘 다 아는 배경을 꺼내는 말입니다. What if we + 과거형은 '~하면 어떨까'라는 부드러운 제안. 과거형을 쓰는 이유는 아직 일어나지 않은 일이라서 그래요.","mistake":{"x":"Our bathroom has mold every summer. How about hire a contractor?","o":"You know how our bathroom walls collect mold every summer. What if we hired a contractor?","why":"How about 뒤에는 동명사(hiring)가 와야 하고, 공유된 배경을 꺼낼 땐 You know how가 훨씬 자연스럽습니다."},"variants":[{"en":"You know how the walls get moldy every summer?","ko":"우리 벽이 여름마다 곰팡이 슨 거 알지?"},{"en":"What if we just put a window in there?","ko":"거기에 창문 하나 내면 어떨까?"},{"en":"Maybe we should hire a contractor.","ko":"업자를 부르는 게 나을 것 같아."},{"en":"Why don't we get someone to take a look?","ko":"누구 불러서 한번 보게 하는 게 어때?"}]},{"n":9,"title":"저렇게 하는 사람 처음 보네","situation":"남들이 안 하는 방식으로 무언가를 하는 사람을 보고","ko":"저렇게 하는 사람 처음 보네","en":"I've never seen anybody do it like that before.","nuance":"never + 현재완료 + before가 한 세트로 '지금까지 한 번도'를 만듭니다. anybody do it은 목적격 뒤에 동사원형이 오는 구조. anybody 대신 anyone도 같아요.","mistake":{"x":"I see first person who does like that.","o":"I've never seen anybody do it like that before.","why":"'처음 보네'는 first로 시작하지 않고 never ... before로 표현합니다. 경험을 말할 땐 현재완료가 기본이에요."},"variants":[{"en":"I've never seen anyone do that before.","ko":"그런 거 하는 사람 처음 봐."},{"en":"That's a first for me.","ko":"나는 처음 보는 거야."},{"en":"I've never seen it done like that.","ko":"저런 방식으로 하는 건 처음 봐."},{"en":"Nobody does it like that.","ko":"아무도 저렇게 안 해."}]},{"n":10,"title":"나 어차피 시간 좀 남아","situation":"상대가 미안해하며 시간을 물을 때, 괜찮다고 말할 때","ko":"나 어차피 시간 좀 남아","en":"I have some time to kill right now anyway.","nuance":"time to kill은 '죽일 시간'이 아니라 남는 시간을 어떻게든 보내야 하는 상황. anyway가 붙으면 '어차피'라서 상대의 부담을 덜어 줍니다.","mistake":{"x":"I have some time anyway.","o":"I have some time to kill right now anyway.","why":"시간이 남는다는 여유를 살리려면 to kill을 붙입니다. 그냥 some time이면 '시간이 좀 있다'로만 들려요."},"variants":[{"en":"I've got some time to kill anyway.","ko":"어차피 시간 좀 남아."},{"en":"I have time to spare.","ko":"시간 여유 있어."},{"en":"I'm free right now anyway.","ko":"어차피 지금 한가해."},{"en":"I've got nothing else to do.","ko":"딱히 할 일도 없어."}]},{"n":11,"title":"신경 쓰지 마 vs 걱정하지 마","situation":"상대가 사과하거나, 걱정하고 있을 때","ko":"신경 쓰지 마 / 걱정하지 마","en":"No worries. / Don't worry.","nuance":"No worries는 상대의 사과·감사에 가볍게 응답하는 말('별거 아니야'). Don't worry는 걱정하는 사람을 진정시키는 말입니다. 무엇에 반응하느냐가 둘을 갈라요.","mistake":{"x":"Don't mind it.","o":"No worries.","why":"Don't mind it은 영어에서 거의 쓰지 않습니다. 사과에 답할 땐 No worries가 자연스러워요."},"variants":[{"en":"No worries.","ko":"별거 아니야."},{"en":"Don't worry about it.","ko":"그거 걱정하지 마."},{"en":"It's no big deal.","ko":"별일 아니야."},{"en":"You're fine, seriously.","ko":"괜찮아, 진짜로."}]}],"extras":[{"en":"It's not ideal, but it's better than doing nothing.","ko":"이상적이진 않지만 아무것도 안 하는 것보단 낫지."},{"en":"Hey, it's just a phase. Don't worry about it. It's going to get better.","ko":"에이, 그냥 과정일 뿐이야. 걱정 마, 나아질 거야."},{"en":"There wasn't a problem per se.","ko":"딱히 문제가 있었다기보다는."},{"en":"I wanted to fit in quickly, so I couldn't help answering their questions.","ko":"빨리 적응하고 싶어서 어쩔 수 없이 대답을 하긴 했는데."},{"en":"I gotta say I didn't feel very comfortable.","ko":"솔직히 좀 불편하더라고."},{"en":"There wasn't particularly a problem, it's just that people asked surprisingly very private questions like it was nothing.","ko":"딱히 문제가 있었다기보다는, 사람들이 놀랍게도 아무것도 아닌 것처럼 아주 사적인 질문을 했다는 거예요."},{"en":"I hope you find this helpful.","ko":"이게 도움이 됐으면 좋겠어요."},{"en":"I will be rooting for you.","ko":"응원할게."},{"en":"What's up?","ko":"뭐 해? / 무슨 일이야?"}]},{"id":"c3","name":"핵심 동사","subtitle":"have · get · used to · should have — 뼈대를 바꾸면 문장이 늘어난다","tagline":"원어민이 하루에도 수십 번 쓰는 동사 틀만 잡아도 표현이 확 늘어납니다. 같은 뼈대로 주어와 대상을 바꿔 말해 보세요.","units":[{"n":1,"title":"할 게 좀 있어","situation":"약속을 거절하며 이유를 가볍게 말할 때","ko":"할 게 좀 있어","en":"I have something to do.","nuance":"have + something / nothing / a lot + to do. '할 것'이라는 명사 뒤에서 to부정사가 꾸며 주는 틀입니다. something은 '좀', a lot은 '많이', nothing은 '아무것도 없이'로 양을 바꿔 끼우면 그대로 문장이 됩니다.","mistake":{"x":"I have a thing to do.","o":"I have something to do.","why":"a thing은 '물건 하나'처럼 들립니다. 막연한 '뭔가'는 something이에요."},"variants":[{"en":"I have a lot to do.","ko":"할 게 많아."},{"en":"I have nothing to do.","ko":"할 게 없어."},{"en":"I have something important to do.","ko":"중요한 일이 좀 있어."},{"en":"Do you have anything to do today?","ko":"오늘 할 일 있어?"}]},{"n":2,"title":"같이 연습할 사람이 없어","situation":"같이 해 줄 사람이 없어서 못 하고 있다고 말할 때","ko":"같이 연습할 사람이 없어","en":"I have no one to practice with.","nuance":"practice with someone의 with가 문장 끝에 남습니다. '사람이 없다'를 no one으로 앞세우고, 그 사람과 무엇을 하는지를 to practice with로 뒤에 붙이는 구조예요. talk to, worry about도 똑같이 전치사가 남습니다.","mistake":{"x":"There is no person to practice.","o":"I have no one to practice with.","why":"no person은 어색하고, practice 뒤의 with를 빠뜨리면 '연습할 사람'이 아니라 '연습할 대상'이 됩니다."},"variants":[{"en":"I have no one to talk to.","ko":"얘기할 사람이 없어."},{"en":"I have a lot of people to talk to.","ko":"얘기할 사람이 많아."},{"en":"I don't have anyone to practice with.","ko":"같이 연습할 사람이 없어."},{"en":"Who do you practice with?","ko":"누구랑 연습해?"}]},{"n":3,"title":"우리는 할 얘기가 많았어","situation":"오랜만에 만난 사람과 이야기가 길게 이어졌을 때","ko":"우리는 할 얘기가 많았어","en":"We had a lot to talk about.","nuance":"과거 had로 바꾸면 '그때 할 얘기가 많았다'가 됩니다. talk about의 about이 끝에 남고, think about도 같은 방식이에요. 근황 이야기라면 catch up on을 써서 We had a lot to catch up on.","mistake":{"x":"We had many stories to say.","o":"We had a lot to talk about.","why":"story to say는 영어에 없는 조합입니다. '할 얘기'는 talk about으로 받아요."},"variants":[{"en":"We have a lot to think about.","ko":"우리는 생각할 게 많아."},{"en":"We had a lot to catch up on.","ko":"우리는 근황 얘기가 많았어."},{"en":"There's so much to talk about.","ko":"얘기할 게 정말 많아."},{"en":"We need to talk.","ko":"우리 얘기 좀 해야겠어."}]},{"n":4,"title":"걱정할 게 하나도 없어","situation":"불안해하는 사람에게 확실하게 안심시킬 때","ko":"너는 걱정할 게 하나도 없어","en":"You have nothing to worry about.","nuance":"worry about의 about이 남고 nothing이 앞에 옵니다. 주어를 There로 바꾸면 There's nothing to worry about으로 더 일반적인 말이 돼요. What's there to worry about?은 '뭐 걱정할 게 있어?'라는 반문.","mistake":{"x":"You don't have worry things.","o":"You have nothing to worry about.","why":"worry는 동사라서 to부정사로 명사를 꾸며야 합니다. worry things라는 명사 조합은 쓰지 않아요."},"variants":[{"en":"There's nothing to worry about.","ko":"걱정할 거 없어."},{"en":"You've got nothing to worry about.","ko":"걱정할 게 하나도 없어."},{"en":"Don't worry about a thing.","ko":"아무것도 걱정하지 마."},{"en":"What's there to worry about?","ko":"뭐 걱정할 게 있어?"}]},{"n":5,"title":"부끄러워할 게 아무것도 없어","situation":"실수한 사람에게 창피해하지 말라고 말할 때","ko":"부끄러워할 게 아무것도 없어","en":"There is nothing to be ashamed of.","nuance":"be ashamed of는 '부끄러움을 느끼는 상태'. there is nothing to ~ 틀에 그대로 넣으면 '~할 것이 아무것도 없다'가 됩니다. 두려움은 scared of, 두려움의 대상이 있으면 afraid of.","mistake":{"x":"There is nothing to shame.","o":"There is nothing to be ashamed of.","why":"shame은 '부끄럽게 만들다'(타동사)라서 주어가 부끄러워하는 상황엔 be ashamed를 씁니다."},"variants":[{"en":"There's nothing to be ashamed of.","ko":"부끄러워할 것 없어."},{"en":"There's nothing to be scared of.","ko":"무서워할 것 하나도 없어."},{"en":"There's nothing to be afraid of.","ko":"두려워할 것 없어."},{"en":"You have nothing to be ashamed of.","ko":"넌 부끄러워할 게 없어."}]},{"n":6,"title":"기대할 게 정말 많아","situation":"앞으로 있을 일이 즐거워서 들뜬 마음을 말할 때","ko":"기대할 게 정말 많아","en":"There is so much to look forward to.","nuance":"look forward to는 '앞을 내다보며 기대하다'. to가 전치사라서 뒤에 명사나 동명사가 옵니다. I'm looking forward to it이 가장 흔한 인사말 형태예요.","mistake":{"x":"There is much to expect.","o":"There is so much to look forward to.","why":"expect는 '예상하다'라서 설렘이 없습니다. 즐거운 기대는 look forward to예요."},"variants":[{"en":"There's so much to look forward to.","ko":"기대할 게 정말 많아."},{"en":"I'm looking forward to it.","ko":"기대하고 있어."},{"en":"I can't wait.","ko":"빨리 보고 싶어."},{"en":"There's a lot to look forward to.","ko":"기대할 게 많아."}]},{"n":7,"title":"좋은 장소를 많이 가볼 수 있었어","situation":"여행이나 일에서 운 좋게 좋은 기회를 가졌을 때","ko":"몇 년 전 아이슬란드에 갔을 때 아름다운 장소를 많이 가볼 수 있었다","en":"When I was in Iceland a few years ago, I got to visit a lot of beautiful locations.","nuance":"get to + 동사는 '기회가 있어 ~하게 되다'. 즐거운 기회에 씁니다. 의무인 had to와 정반대라서, 같은 문장에서 I had to work but I got to meet people처럼 대비시키면 뜻이 선명해져요.","mistake":{"x":"I could visit a lot of beautiful places.","o":"I got to visit a lot of beautiful locations.","why":"could는 능력이나 가능성이라 감흥이 없습니다. '운 좋게 해봤다'는 get to가 그 느낌을 담아요."},"variants":[{"en":"I get to set my own work schedule.","ko":"내 근무 일정을 내가 짤 수 있어."},{"en":"I got to meet a lot of different people.","ko":"다양한 사람들을 많이 만날 수 있었어."},{"en":"I got to try a lot of unusual food.","ko":"신기한 음식을 많이 먹어볼 수 있었어."},{"en":"I never get to see you anymore.","ko":"요즘 널 볼 기회가 없네."}]},{"n":8,"title":"학교 끝나고 바로 집에 못 갔어","situation":"하고 싶었지만 기회가 없어서 못 했던 일을 말할 때","ko":"학교 끝나고 바로 집으로 가지 못했어","en":"I didn't get to go home right after school.","nuance":"didn't get to는 '기회가 없어서 못 했다'입니다. couldn't(능력·상황상 불가)와 미묘하게 다르고, 아쉬움이 배어 있어요. 질문은 Did you get to ~?로 '~할 기회 있었어?'","mistake":{"x":"I couldn't go home because no chance.","o":"I didn't get to go home right after school.","why":"chance를 문장에 억지로 붙이지 않아도 get to 하나로 '기회가 없어서 못 했다'가 됩니다."},"variants":[{"en":"We didn't get to ask any questions.","ko":"질문은 하나도 못 했어."},{"en":"I didn't get to do a lot of things.","ko":"하고 싶은 걸 많이 못 했어."},{"en":"I never got to say goodbye.","ko":"작별 인사를 못 했어."},{"en":"Did you get to see him?","ko":"그 사람 만날 기회 있었어?"}]},{"n":9,"title":"새 직장에 적응하는 중이야","situation":"새 환경에 익숙해지는 과정을 말할 때","ko":"나는 새 직장에 적응하는 중이에요","en":"I'm getting used to my new job.","nuance":"세 가지를 구분하세요. be used to + 명사/동명사 = 익숙하다, get used to = 익숙해지다(변화 중), used to + 동사원형 = 예전에 ~했다(지금은 아님). 전치사 to 뒤에는 반드시 명사나 동명사가 옵니다.","mistake":{"x":"I'm getting used to work at my new job.","o":"I'm getting used to working at my new job.","why":"여기 to는 전치사라서 동사원형이 아니라 동명사(working)가 와야 합니다."},"variants":[{"en":"I'm used to working under pressure.","ko":"나는 압박 속에서 일하는 것에 익숙해."},{"en":"She's getting used to waking up early.","ko":"그녀는 일찍 일어나는 것에 적응하는 중이야."},{"en":"He's used to the cold weather.","ko":"그는 추운 날씨에 익숙해."},{"en":"They're used to the new system now.","ko":"그들은 이제 새 시스템에 익숙해졌어."}]},{"n":10,"title":"예전엔 주말마다 축구를 했는데","situation":"지금은 하지 않는 옛 습관을 이야기할 때","ko":"예전에는 주말마다 축구를 했지만, 지금은 시간이 없어","en":"I used to play soccer every weekend, but now I don't have time.","nuance":"used to + 동사원형은 '예전에는 ~했다(지금은 아니다)'. 과거형과 달리 '지금은 안 한다'는 대비가 자동으로 담깁니다. I never used to be like this는 '예전엔 안 그랬는데'.","mistake":{"x":"I was playing soccer every weekend before.","o":"I used to play soccer every weekend.","why":"과거진행은 그때 하고 있었다는 장면일 뿐, '지금은 안 한다'는 뜻이 없습니다. 옛 습관은 used to예요."},"variants":[{"en":"She used to live in New York.","ko":"그녀는 예전에 뉴욕에 살았어."},{"en":"I never used to be like this.","ko":"예전에는 안 그랬는데."},{"en":"I didn't use to like coffee.","ko":"예전엔 커피를 안 좋아했어."},{"en":"Things used to be different.","ko":"예전엔 달랐는데."}]},{"n":11,"title":"어제 바로 자지 말걸","situation":"지난 일을 후회하며 '그때 그렇게 하지 말았어야 했는데'라고 말할 때","ko":"어제 바로 자지 말걸. 그랬으면 아침에 그렇게 바쁘지 않았을 텐데","en":"I shouldn't have gone straight to bed. Then, I wouldn't have been so busy this morning.","nuance":"should have + 과거분사는 '~했어야 했는데(안 했다)'는 후회, shouldn't have는 '~하지 말았어야 했는데(했다)'. 발음은 should've, wouldn't have는 '워른해브'처럼 뭉개집니다. Then 이하도 가정법 과거완료예요.","mistake":{"x":"I should not go to bed straight.","o":"I shouldn't have gone straight to bed.","why":"이미 지난 일에 대한 후회라서 should have + 과거분사가 필요합니다. should not go는 앞으로의 일을 말해요."},"variants":[{"en":"I should've done my work.","ko":"내 일을 끝냈어야 했는데."},{"en":"I should have known.","ko":"그럴 줄 알았어야 했는데."},{"en":"I shouldn't have said that.","ko":"그 말 하지 말았어야 했는데."},{"en":"I could be wrong.","ko":"내가 틀렸을 수도 있어."}]}],"extras":[{"en":"I think one of the most interesting things about teaching English is that I get to meet a lot of different people.","ko":"영어를 가르치면서 가장 흥미로운 점 중 하나는 다양한 사람들을 많이 만날 수 있다는 것이다."},{"en":"When I was little, both of my parents had to work. So, I didn't get to go home right after school.","ko":"어렸을 때 부모님이 둘 다 일을 하셔서 학교 끝나고 바로 집에 가지 못했어요."},{"en":"When I was in high school, I spent one vacation with my grandfather and I got to see what it was like to be a farmer.","ko":"고등학생 때 방학에 할아버지와 지내며 농부로 사는 게 어떤지 볼 수 있었어요."},{"en":"When she was in college, she had to work when she wasn't studying.","ko":"그녀는 대학생 때 공부하지 않을 땐 일을 해야 했어요."},{"en":"She gave a really good presentation. We got to learn a lot about raising children. We didn't get to ask any questions, though.","ko":"그녀는 정말 좋은 발표를 했어요. 육아에 대해 많이 배웠지만 질문은 못 했어요."},{"en":"When I was studying in China, I got to try a lot of very unusual food.","ko":"중국에서 공부할 때 신기한 음식을 많이 먹어볼 수 있었어요."},{"en":"It could be that he's just tired.","ko":"그냥 피곤한 것일 수도 있어."},{"en":"There's no particular reason.","ko":"딱히 이유가 있는 건 아니야."},{"en":"I'm confused about what to do.","ko":"뭘 해야 할지 헷갈려."},{"en":"I'm confused by all these options.","ko":"이 많은 선택지 때문에 헷갈려."},{"en":"I'm not very used to this.","ko":"전 이거에 아주 익숙하지 않아요."},{"en":"I'm not used to spicy food.","ko":"나는 매운 음식이 익숙하지 않아요."},{"en":"As a freelancer, I get to set my own work schedule.","ko":"프리랜서로서 내 근무 일정을 내가 짤 수 있다."},{"en":"I'm interested in this.","ko":"이거에 관심 있어."},{"en":"I'm prepared to take the risk.","ko":"위험을 감수할 준비가 되어 있어."},{"en":"I'm scared of heights.","ko":"나는 높은 곳이 무서워."},{"en":"I'm worried about the schedule.","ko":"일정이 걱정돼."},{"en":"I'm addicted to this game.","ko":"나 이 게임에 중독됐어."},{"en":"A major obstacle to learning English is not having enough time to practice every day.","ko":"영어 학습의 가장 큰 걸림돌은 매일 연습할 시간이 없다는 것이다."},{"en":"I'm always more productive when I work in the morning rather than late at night.","ko":"나는 늦은 밤보다 아침에 일할 때 늘 더 생산적이다."},{"en":"To see real progress at the gym, you have to be consistent with your workouts.","ko":"헬스장에서 진짜 변화를 보려면 운동을 꾸준히 해야 한다."},{"en":"Yoga helps me feel centered and ready to face the day with a clear mind.","ko":"요가는 마음을 가다듬고 맑은 정신으로 하루를 시작하게 해 준다."}]},{"id":"c4","name":"뉘앙스와 전치사","subtitle":"in / on / with 하나가 뜻을 바꾼다 — 콩글리시 교정","tagline":"아는 단어인데 어색하게 들리는 이유는 대부분 전치사와 짝입니다. 틀린 표현을 먼저 보고 고쳐 보세요.","units":[{"n":1,"title":"이게 어디야","situation":"기대에 못 미치지만 없는 것보단 나을 때","ko":"(그래도) 이게 어디야","en":"It's better than nothing.","nuance":"비교급 than으로 '없는 것보다 낫다'를 만듭니다. 완벽하지 않은 상황을 스스로 달래는 말투예요. '아무것도 안 하는 것보단 낫지'는 It's better than doing nothing.","mistake":{"x":"It's better than nothing is.","o":"It's better than nothing.","why":"than 뒤에는 비교 대상만 옵니다. 절을 붙이지 않아요."},"variants":[{"en":"It's better than doing nothing.","ko":"아무것도 안 하는 것보단 낫지."},{"en":"It's not ideal, but it's better than nothing.","ko":"이상적이진 않지만 없는 것보단 나아."},{"en":"At least it's something.","ko":"그래도 뭔가 하긴 했네."},{"en":"I'll take what I can get.","ko":"되는 대로 받아들일게."}]},{"n":2,"title":"늦게라도 해서 다행이야","situation":"일이 늦어졌지만 아예 안 한 것보다 나을 때","ko":"늦게라도 해서 다행이야","en":"Better late than never.","nuance":"Better A than B는 'B보다 A가 낫다'는 틀인데, 주어와 동사를 생략한 채 관용구로 굳었습니다. 격려할 때도, 스스로를 달랠 때도 씁니다.","mistake":{"x":"Late is better than never do.","o":"Better late than never.","why":"관용구는 형태가 고정되어 있습니다. 풀어 쓰면 오히려 어색해져요."},"variants":[{"en":"Better late than never.","ko":"늦게라도 하는 게 낫지."},{"en":"Better now than later.","ko":"나중보다 지금이 낫지."},{"en":"It's better to be safe.","ko":"안전한 게 좋아."},{"en":"At least you did it.","ko":"그래도 해냈잖아."}]},{"n":3,"title":"나중에 후회하느니 안전하게","situation":"확신이 없어 예방책을 택할 때","ko":"나중에 후회하는 것보다는 낫지 (안전하게 하는 게 좋다)","en":"Better safe than sorry.","nuance":"safe(안전한)와 sorry(후회하는)를 대비시킨 관용구. 준비가 과해 보여도 '혹시 모르니' 택하는 쪽을 정당화합니다.","mistake":{"x":"Safety is better than regret.","o":"Better safe than sorry.","why":"뜻은 통하지만 원어민이 쓰는 형태는 이 관용구 하나입니다."},"variants":[{"en":"Better safe than sorry.","ko":"안전하게 하는 게 낫지."},{"en":"Let's be safe about it.","ko":"안전하게 가자."},{"en":"You can never be too careful.","ko":"조심해서 나쁠 건 없어."},{"en":"Just to be on the safe side.","ko":"혹시 모르니까."}]},{"n":4,"title":"이 정도면 다행이야","situation":"안 좋은 일이 있었지만 더 나빠질 수도 있었을 때","ko":"이 정도여서 다행이야 / 그래도 적어도 이젠 알았으니까","en":"It could have been worse.","nuance":"could have + 과거분사는 '더 나빠질 수도 있었는데'라는 가정법 과거완료. at least는 '최소한'이라 위안의 최소선을 그어 줍니다.","mistake":{"x":"It can be worse.","o":"It could have been worse.","why":"이미 지나간 일을 두고 말하니 could have been이어야 합니다. can be는 앞으로의 가능성 이야기가 돼요."},"variants":[{"en":"At least now we know.","ko":"그래도 이젠 알았으니까."},{"en":"It could've been a lot worse.","ko":"훨씬 나빠질 수도 있었어."},{"en":"At least nobody got hurt.","ko":"적어도 다친 사람은 없잖아."},{"en":"It is what it is.","ko":"그냥 그런 거지 뭐."}]},{"n":5,"title":"이상적이진 않지만 아무것도 안 하는 것보단 낫지","situation":"완벽한 해결책은 아니지만 지금 할 수 있는 최선일 때","ko":"이상적이진 않지만 아무것도 안 하는 것보단 낫지","en":"It's not ideal, but it's better than doing nothing.","nuance":"not ideal은 '최선은 아니다'를 부드럽게 말하는 완곡어법입니다. better than 뒤에는 동명사(doing)가 와요. 상황을 체념하며 받아들일 땐 It is what it is.","mistake":{"x":"It's not best, but better than do nothing.","o":"It's not ideal, but it's better than doing nothing.","why":"than은 전치사처럼 쓰여 동명사가 옵니다. not best보다 not ideal이 훨씬 자연스러워요."},"variants":[{"en":"It's not ideal, but it works.","ko":"이상적이진 않지만 쓸 만해."},{"en":"Not perfect, but good enough.","ko":"완벽하진 않지만 충분해."},{"en":"It's the best we can do for now.","ko":"지금으로선 이게 최선이야."},{"en":"It is what it is.","ko":"어쩔 수 없지 뭐."}]},{"n":6,"title":"프로젝트는 진행 중이야","situation":"일이 어디까지 왔는지 물었을 때","ko":"프로젝트는 진행 중이야","en":"The project is in progress.","nuance":"'진행 중'은 in progress입니다. on progress는 콩글리시예요. 과정 자체를 말할 땐 in the process of + 동명사. on은 '접촉'의 느낌이라 진행 중이라는 뜻을 만들지 못합니다.","mistake":{"x":"The project is on progress. / We are on process of testing the product.","o":"The project is in progress. / We are in the process of testing the product.","why":"in은 '어떤 상태 안에'라는 느낌이라 진행 상태를 담습니다. on progress는 영어에 없는 조합이에요."},"variants":[{"en":"We are in the process of testing the product.","ko":"제품을 테스트하는 중입니다."},{"en":"The project is still in progress.","ko":"프로젝트는 아직 진행 중이야."},{"en":"We're working on it.","ko":"지금 하고 있어."},{"en":"It's underway.","ko":"진행되고 있어."}]},{"n":7,"title":"한번 훑어봐 줄래?","situation":"보낼 메일이나 자료를 검토해 달라고 부탁할 때","ko":"이 메일 한번 훑어봐 줄래? / 그 문제 조사해 볼게","en":"Can you look over this email? / I'll look into the issue.","nuance":"look over는 빠르게 훑어보는 검토, look into는 원인을 파고드는 조사, look at은 그냥 보는 것. 같은 look에 전치사가 방향을 더해 뜻이 갈립니다.","mistake":{"x":"Can you look this email?","o":"Can you look over this email?","why":"look은 자동사라서 목적어를 바로 받지 못합니다. look at / look over처럼 전치사가 필요해요."},"variants":[{"en":"I'll look into the issue.","ko":"그 문제 조사해 볼게."},{"en":"Look at this.","ko":"이것 좀 봐."},{"en":"We're looking into what caused it.","ko":"원인이 뭔지 알아보고 있어."},{"en":"Could you take a look at this?","ko":"이거 한번 봐 줄래?"}]},{"n":8,"title":"잘 챙겨 줘서 고마워","situation":"상대가 일을 놓치지 않고 처리해 줬을 때","ko":"잘 처리해 줘서 고마워","en":"Thanks for being on top of it.","nuance":"be on top of something은 '상황을 놓치지 않고 챙기고 있다'. 칭찬과 감사가 함께 담긴 표현이라 업무 메일에서 특히 유용합니다.","mistake":{"x":"Thanks for doing it on top.","o":"Thanks for being on top of it.","why":"on top of it은 '그 일 위에 있다'가 아니라 '그 일을 계속 챙기고 있다'는 상태예요."},"variants":[{"en":"Thanks for staying on top of it.","ko":"계속 챙겨 줘서 고마워."},{"en":"You're really on top of things.","ko":"정말 일을 잘 챙기네."},{"en":"I'll stay on top of it.","ko":"제가 계속 챙길게요."},{"en":"She's on top of every detail.","ko":"그녀는 모든 걸 놓치지 않아."}]},{"n":9,"title":"이제 더는 못 참겠어","situation":"계속 참아 왔지만 더는 안 되겠다고 선을 그을 때","ko":"이제 더 이상 못 참겠어 / 안 받아줘","en":"I'm not putting up with it anymore.","nuance":"put up with는 '참고 견디다'. 부정문과 anymore가 만나 한계에 도달했음을 알립니다. 강조하면 I've put up with enough.","mistake":{"x":"I can't endure it more.","o":"I'm not putting up with it anymore.","why":"endure는 문어적이고, '참아 주다'는 put up with가 회화의 기본입니다."},"variants":[{"en":"I'm not putting up with this anymore.","ko":"이제 이거 더는 못 참아."},{"en":"I won't put up with it.","ko":"안 참을 거야."},{"en":"I've put up with enough.","ko":"충분히 참았어."},{"en":"How do you put up with that?","ko":"그걸 어떻게 참아?"}]},{"n":10,"title":"내가 알기로는 마이크가 담당이야","situation":"확실하지 않은 정보를 전하며 내가 아는 범위를 밝힐 때","ko":"내가 알기로는 마이크가 그걸 담당하고 있어","en":"As far as I know, Mike is in charge of that.","nuance":"as far as I know는 '내가 아는 범위에서는'. 격식체로는 to my knowledge, based on what I know. 듣기로는 from what I hear, 내 판단으로는 the way I see it.","mistake":{"x":"As I know, Mike is charge of that.","o":"As far as I know, Mike is in charge of that.","why":"As I know는 영어에서 쓰지 않고, 담당은 be in charge of로 charge 앞에 in이 필요합니다."},"variants":[{"en":"From what I hear, it's the same this year.","ko":"내가 듣기로는 올해도 같대."},{"en":"The way I see it, we're on the right track.","ko":"내가 보기엔 우리 잘 가고 있어."},{"en":"To my knowledge, nobody has complained.","ko":"내가 알기로는 아무도 불만을 말하지 않았어."},{"en":"I was told that it would be the same this year.","ko":"올해도 같을 거라고 들었어."}]},{"n":11,"title":"내가 보기엔 넌 충분히 했어","situation":"수고한 사람에게 내 기준으로는 충분하다고 말할 때","ko":"내가 생각하기에는 너는 충분히 하고도 남았어","en":"As far as I'm concerned, you have done more than enough.","nuance":"as far as I'm concerned는 '내 입장에서는, 내 기준으로는'입니다. as far as I know(내가 아는 한)와 다르니 주의하세요. concern은 '관심사·걱정거리'라서 That's not your concern은 '네가 신경 쓸 일 아니야'.","mistake":{"x":"As far as I think, you did enough.","o":"As far as I'm concerned, you have done more than enough.","why":"as far as 뒤에 I think는 오지 않습니다. 내 판단·입장을 말할 땐 I'm concerned를 써요."},"variants":[{"en":"As far as I'm concerned, you're the best salesman we have.","ko":"내가 보기엔 네가 우리 최고의 영업사원이야."},{"en":"The sooner the better as far as I'm concerned.","ko":"내 기준에선 빠를수록 좋아."},{"en":"As far as the project is concerned, we're on the right track.","ko":"프로젝트는 잘 진행되고 있어."},{"en":"That's not your concern.","ko":"네가 신경 쓸 일 아니야."}]}],"extras":[{"en":"I sent you the email right before the meeting.","ko":"회의 직전에 메일 보냈어요."},{"en":"I sent you the email just before.","ko":"방금 전에 메일 보냈어요."},{"en":"I just sent you an email.","ko":"막 메일 보냈어."},{"en":"I saw him just now.","ko":"방금 그 사람 봤어."},{"en":"I just finished my work.","ko":"일을 막 끝냈어."},{"en":"I sent you the email a moment ago.","ko":"조금 전에 메일 보냈어."},{"en":"I sent you the email right away.","ko":"바로 메일 보냈어."},{"en":"Based on what I know, the schedule hasn't changed.","ko":"제가 알기로는 일정은 바뀌지 않았어요."},{"en":"According to what I know, nothing has been decided yet.","ko":"제가 알기로는 아직 아무것도 정해지지 않았어요."},{"en":"In my opinion, we should wait.","ko":"제 생각에는 기다리는 게 좋을 것 같아요."},{"en":"Is this really necessary?","ko":"이거 정말 꼭 필요한 건가요?"},{"en":"Do we really need to proceed with this?","ko":"이거 정말 진행해야 하나요?"},{"en":"Is this a must?","ko":"이거 필수인가요?"},{"en":"Could you confirm whether this is a mandatory requirement?","ko":"이게 필수 요건인지 확인해 주시겠어요?"},{"en":"Please let me know if this is a critical requirement.","ko":"이게 꼭 지켜야 하는 요건인지 알려 주세요."},{"en":"The sales report has been finalized.","ko":"판매 보고서는 최종 마무리됐습니다."},{"en":"The best option is to keep this schedule.","ko":"이 일정을 유지하는 게 최선입니다."},{"en":"The most reasonable option is to proceed as scheduled.","ko":"가장 합리적인 선택은 예정대로 진행하는 것입니다."}]},{"id":"c5","name":"실전 회화","subtitle":"대화의 흐름을 통째로 — 듣고 받아치는 힘","tagline":"한 문장이 아니라 대화의 흐름으로 익힙니다. 상대 말을 받아 주는 짧은 표현이 회화를 살립니다.","units":[{"n":1,"title":"이런 거 처음 봐?","situation":"친구 손목에 붙은 진통 패치를 보고 '이런 것도 있어?'라고 물을 때","ko":"이런 거 본 적 없지? / 이건 니코틴 패치 같은 건데, 니코틴 대신 진통제가 들어 있어","en":"You've never seen one of these? / It's kind of like a nicotine patch, but instead of nicotine, it has pain-relieving medicine.","nuance":"one of these는 '이런 것 중 하나'라서 손에 든 물건을 가리키며 묻는 말이 됩니다. kind of like는 '약간 ~같은'. instead of A는 'A 대신에'로, 두 대상의 자리를 바꾸는 전치사예요.","mistake":{"x":"You don't know this one?","o":"You've never seen one of these?","why":"모르는지가 아니라 '본 적 있는지'를 묻는 상황입니다. 경험은 현재완료로 물어요."},"variants":[{"en":"You've never seen these?","ko":"이런 거 본 적 없어?"},{"en":"Haven't you seen one of these before?","ko":"이런 거 전에 본 적 없어?"},{"en":"It's kind of like a nicotine patch.","ko":"니코틴 패치 같은 거야."},{"en":"Just think of it as a huge band-aid.","ko":"그냥 커다란 반창고라고 생각해."}]},{"n":2,"title":"주말에 뭐 했어?","situation":"월요일 아침, 가볍게 주말 근황을 물을 때","ko":"주말 어땠어? 뭐 좀 했어?","en":"How was your weekend? Did you do something?","nuance":"Did you do something?은 '뭐 좀 했어?'라는 가벼운 기대가 담긴 질문입니다. 별일 없었다는 대답은 Not much. You?로 받아요. '뭐 했어?'의 캐주얼한 형태는 What did you get up to?","mistake":{"x":"How was your weekend? Did you do anything?","o":"How was your weekend? Did you do something?","why":"anything은 '아무거나'라서 기대가 0에 가깝게 들립니다. 뭔가 했을 것 같아 묻는 뉘앙스는 something이에요."},"variants":[{"en":"Did you do anything fun?","ko":"재밌는 거 했어?"},{"en":"Not much. You?","ko":"별거 안 했어. 너는?"},{"en":"What did you get up to?","ko":"뭐 하고 지냈어?"},{"en":"Nothing special.","ko":"딱히 뭐 없었어."}]},{"n":3,"title":"계속 말썽이라 결국 새로 샀어","situation":"고치려고 여러 번 애썼지만 결국 새것을 사야 했을 때","ko":"몇 번이나 고쳐 봤는데 계속 말썽을 부려서","en":"I've tried getting it fixed several times, but it kept acting up.","nuance":"try + 동명사는 '실제로 해보다', try to는 '하려고 애쓰다(성공 불명)'. keep + 동명사는 '계속 ~하다'. act up은 기계가 말썽을 부리는 것.","mistake":{"x":"I tried to fix it many times but it kept doing trouble.","o":"I've tried getting it fixed several times, but it kept acting up.","why":"do trouble은 영어에 없는 조합입니다. 기계가 말썽이면 act up이에요."},"variants":[{"en":"It kept acting up.","ko":"계속 말썽을 부렸어."},{"en":"My phone keeps freezing.","ko":"내 폰이 계속 멈춰."},{"en":"I had it fixed twice.","ko":"두 번 고쳤어."},{"en":"I tried to get it fixed.","ko":"고쳐 보려고 했어."}]},{"n":4,"title":"그래서 새로 사기로 했어","situation":"고치는 걸 포기하고 새로 사기로 결정했을 때","ko":"그래서 새로 사야 할 때라고 생각했어","en":"So I decided it was time to get a new one.","nuance":"it was time to + 동사는 '(그때) ~할 때였다'. one은 앞에 나온 phone을 되받는 대명사라 반복을 피합니다. might as well은 '~하는 편이 낫겠다'는 체념 섞인 결심.","mistake":{"x":"So I decided to buy new phone.","o":"So I decided it was time to get a new one.","why":"new phone 앞에 a가 필요하고, 이미 언급한 물건은 one으로 받아 반복을 피합니다."},"variants":[{"en":"It was time for a new one.","ko":"새로 살 때였어."},{"en":"I decided to upgrade.","ko":"새로 바꾸기로 했어."},{"en":"I finally got a new one.","ko":"결국 새로 샀어."},{"en":"I figured I might as well get a new one.","ko":"이왕이면 새로 사는 게 낫겠다 싶었어."}]},{"n":5,"title":"딱히 문제가 있었다기보다는","situation":"불편했던 일을 조심스럽게 설명할 때","ko":"딱히 문제가 있었다기보다는, 사람들이 놀랍게도 아무것도 아닌 것처럼 아주 사적인 질문을 했다는 거예요","en":"There wasn't particularly a problem, it's just that people asked surprisingly very private questions like it was nothing.","nuance":"not particularly는 '딱히 ~하지는 않다'. it's just that ~은 '단지 ~라는 거지'. like it was nothing은 '아무것도 아닌 것처럼'이라는 비유절이에요.","mistake":{"x":"It was not problem, but people asked too much personal.","o":"There wasn't particularly a problem, it's just that people asked very private questions.","why":"personal은 형용사라서 단독으로 목적어가 되지 못합니다. 꾸밀 명사(questions)를 붙여야 해요."},"variants":[{"en":"There wasn't really a problem.","ko":"딱히 문제는 없었어."},{"en":"It's just that they asked too many personal questions.","ko":"그냥 사적인 질문을 너무 많이 했을 뿐이야."},{"en":"Nothing was really wrong.","ko":"딱히 잘못된 건 없었어."},{"en":"They asked private questions like it was nothing.","ko":"아무것도 아닌 것처럼 사적인 걸 물었어."}]},{"n":6,"title":"어쩔 수 없이 대답했어","situation":"빨리 적응하고 싶어서 하기 싫은 질문에도 답했을 때","ko":"빨리 적응하고 싶어서 어쩔 수 없이 대답을 하긴 했는데","en":"I wanted to fit in quickly, so I couldn't help answering their questions.","nuance":"can't help + 동명사는 '~하지 않을 수 없다'. fit in은 '무리에 어울려 적응하다'. 둘 다 회화에서 바로 써먹을 수 있는 틀이에요.","mistake":{"x":"I couldn't help to answer them.","o":"I couldn't help answering their questions.","why":"help 뒤에 동명사가 와야 '어쩔 수 없다'가 됩니다. to부정사가 오면 '돕다'라는 원래 뜻으로 돌아가요."},"variants":[{"en":"I couldn't help laughing.","ko":"웃지 않을 수 없었어."},{"en":"I wanted to fit in.","ko":"빨리 적응하고 싶었어."},{"en":"I felt like I had to answer.","ko":"대답해야 할 것 같았어."},{"en":"I didn't want to stand out.","ko":"튀고 싶지 않았어."}]},{"n":7,"title":"솔직히 좀 불편하더라고","situation":"불편했던 마음을 완곡하게 꺼내놓을 때","ko":"(근데) 솔직히 좀 불편하더라고","en":"I gotta say I didn't feel very comfortable.","nuance":"I gotta say는 '솔직히 말해서'로 운을 떼는 구어 표현. gotta는 got to의 축약입니다. 듣기 좋게 돌려 말하지만 분명히 불편함을 전달하는 방식이에요.","mistake":{"x":"I say honestly I was not comfortable.","o":"I gotta say I didn't feel very comfortable.","why":"I say honestly는 어순도 어색하고 쓰이지 않습니다. 말문을 열 땐 I gotta say / to be honest를 써요."},"variants":[{"en":"I have to say, it wasn't very comfortable.","ko":"솔직히 별로 편하지 않았어."},{"en":"It made me a little uncomfortable.","ko":"좀 불편하게 했어."},{"en":"I didn't feel great about it.","ko":"그다지 기분 좋은 일은 아니었어."},{"en":"To be honest, I felt uncomfortable.","ko":"솔직히 불편했어."}]},{"n":8,"title":"그냥 과정일 뿐이야","situation":"힘들어하는 사람에게 지금은 지나가는 단계라고 말할 때","ko":"에이 그냥 과정일 뿐이야. 걱정 마, 나아질 거야","en":"Hey, it's just a phase. Don't worry about it. It's going to get better.","nuance":"just a phase는 '지나가는 한 단계일 뿐'. 위로할 때 자주 쓰는 고정 표현입니다. It's going to get better는 확신을 담은 미래 표현이에요.","mistake":{"x":"It is just a course.","o":"It's just a phase.","why":"course는 '과정·강의'라서 이 뜻이 안 됩니다. 지나가는 시기는 phase예요."},"variants":[{"en":"It's just a phase.","ko":"그냥 지나가는 단계야."},{"en":"It'll pass.","ko":"지나갈 거야."},{"en":"It's going to get better.","ko":"나아질 거야."},{"en":"Hang in there.","ko":"조금만 버텨."}]},{"n":9,"title":"딱히 문제가 있었다기보다는","situation":"문제였다고 단정하기는 애매할 때, 정확하게 말할 때","ko":"딱히 문제가 있었다기보다는","en":"There wasn't a problem per se.","nuance":"per se는 라틴어로 '그 자체로는'. 문제인 건 아닌데 불편한 점이 있다는 식의 정확한 구분에 씁니다. 격식 있는 자리에서 특히 유용해요.","mistake":{"x":"It was not a problem itself.","o":"There wasn't a problem per se.","why":"itself로 옮기면 '그 문제 자체'라는 다른 강조가 됩니다. '본질적으로는'은 per se예요."},"variants":[{"en":"Not a problem per se.","ko":"딱히 문제라기보다는."},{"en":"Nothing wrong as such.","ko":"딱히 잘못된 건 없어."},{"en":"It wasn't a problem in itself.","ko":"그 자체가 문제는 아니었어."},{"en":"It's more of a nuisance.","ko":"그보다는 귀찮은 정도야."}]},{"n":10,"title":"응원할게","situation":"면접이나 중요한 도전을 앞둔 사람에게","ko":"응원할게","en":"I will be rooting for you.","nuance":"root for는 '응원하다'. 경기·면접·도전 앞둔 사람에게 힘을 실어 주는 말입니다. You've got this는 '넌 할 수 있어'라는 짧은 응원.","mistake":{"x":"I will cheer you.","o":"I'm rooting for you.","why":"cheer는 목적어를 바로 받아 '응원하다'로 쓰지 않고 cheer for/on이 필요합니다. 자연스러운 표현은 root for예요."},"variants":[{"en":"I'm rooting for you.","ko":"응원하고 있어."},{"en":"We're all rooting for you.","ko":"우리 모두 응원해."},{"en":"You've got this.","ko":"넌 할 수 있어."},{"en":"Good luck — I'm behind you.","ko":"행운을 빌어, 뒤에 내가 있어."}]},{"n":11,"title":"어떻게 연락드리면 될까요?","situation":"처음 만난 사람과 연락 방법을 정할 때","ko":"어떻게 연락드리면 될까요?","en":"What's the best way to reach you?","nuance":"reach a person은 '연락이 닿다'. 방법을 묻는 가장 자연스러운 틀입니다. How can I reach you?도 같은 뜻이에요.","mistake":{"x":"How can I contact with you?","o":"What's the best way to reach you?","why":"contact는 타동사라서 with를 붙이지 않습니다. contact you 또는 reach you."},"variants":[{"en":"How can I reach you?","ko":"어떻게 연락하면 될까요?"},{"en":"What's the best way to get in touch?","ko":"연락은 어떻게 하는 게 가장 좋을까요?"},{"en":"Should I call or email you?","ko":"전화드릴까요, 메일드릴까요?"},{"en":"Is this number okay for reaching you?","ko":"이 번호로 연락드리면 될까요?"}]}],"extras":[{"en":"A: What's wrong with your wrist?","ko":"손목이 왜 그래?"},{"en":"B: I don't know, but it really hurts.","ko":"모르겠는데 진짜 아파."},{"en":"A: Does it hurt all the time?","ko":"계속 아파?"},{"en":"B: I don't know.","ko":"모르겠어."},{"en":"B: What's that?","ko":"그게 뭐야?"},{"en":"A: It's a patch for the pain. You've never seen one of these?","ko":"진통 패치야. 이런 거 처음 봐?"},{"en":"B: I don't think so. How does it work?","ko":"못 본 것 같아. 어떻게 하는 거야?"},{"en":"A: It's kind of like a nicotine patch. But instead of nicotine, it has pain-relieving medicine.","ko":"니코틴 패치 같은 건데, 니코틴 대신 진통제가 들어 있어."},{"en":"B: Does it work?","ko":"효과 있어?"},{"en":"B: Are you sure I can take one?","ko":"내가 하나 써도 되는 거 확실해?"},{"en":"A: Of course. I've got boxes of them at home.","ko":"당연하지. 집에 한 상자씩 있어."},{"en":"B: No. I think I got it. Thanks.","ko":"아니, 내가 할 수 있을 것 같아. 고마워."},{"en":"B: Not much. You? Didn't you say you were going to get a new phone?","ko":"별거 안 했어. 너는? 새 폰 사기로 하지 않았어?"},{"en":"A: Oh, that's right! Check it out.","ko":"아 맞다! 이거 봐."},{"en":"B: Nice! What about your old one?","ko":"좋네! 예전 폰은?"},{"en":"A: I think it was broken. I've tried getting it fixed several times, but it kept acting up.","ko":"고장 난 것 같았어. 몇 번이나 고쳐 봤는데 계속 말썽을 부렸어."},{"en":"Would you like to give it a try?","ko":"한번 사용해 보시겠어요?"},{"en":"Does that work for you?","ko":"그거 괜찮으세요? / 효과가 있나요?"},{"en":"Do you prefer any particular type of sandwich, like a chicken or ham one?","ko":"치킨이나 햄처럼 특별히 좋아하는 샌드위치 종류가 있으세요?"},{"en":"I think the caffeine in the coffee makes it easier for me to focus on work.","ko":"커피의 카페인이 일에 집중하게 해 주는 것 같아요."},{"en":"Your answer is becoming more compelling.","ko":"여러분의 답변이 점점 설득력을 얻고 있습니다."},{"en":"Pretend that you are at an actual interview and record yourself.","ko":"실제 면접을 보고 있다고 가정하고 자신을 녹음하세요."},{"en":"This will also get easier with more practice and more experience doing interviews.","ko":"이것도 연습과 면접 경험이 쌓이면 더 쉬워질 거예요."},{"en":"Yesterday is history. Tomorrow is mystery. Today is a gift.","ko":"어제는 역사, 내일은 미스터리, 오늘은 선물."},{"en":"There's no shortcut to success.","ko":"성공에 지름길은 없어."},{"en":"At least try before giving up.","ko":"적어도 포기하기 전에 시도는 해봐."},{"en":"She waited for no less than an hour.","ko":"그녀는 적어도 한 시간은 기다렸다."},{"en":"The job will take not less than two weeks.","ko":"그 일은 적어도 2주는 걸릴 거야."},{"en":"If you don't mind me asking, how old are you?","ko":"이런 질문 드려도 될지 모르겠지만, 나이가 어떻게 되세요?"},{"en":"First off, let's break it down.","ko":"우선, 하나씩 뜯어봅시다."},{"en":"You can make it easier for me.","ko":"그렇게 하면 제가 더 쉽게 할 수 있어요."}]},{"id":"c6","name":"비즈니스 · 영업","subtitle":"회의·이메일·협상 — 일이 굴러가게 만드는 말","tagline":"해외 바이어와의 통화, 본사 보고, 협상 자리에서 바로 쓰는 표현입니다. 정중함과 단호함의 균형을 익혀 보세요.","units":[{"n":1,"title":"안건이 뭐야?","situation":"회의 직전, 오늘 다룰 안건과 놓치면 안 될 항목을 확인할 때","ko":"안건이 뭐야? 내가 따라잡아야 할 중요한 내용 있어?","en":"What's on the agenda? Any major things I should track?","nuance":"on the agenda는 '안건에 올라 있는'. track은 '계속 따라가며 챙기다'라서 업무에서 자주 쓰입니다. covering(다루다)도 회의에서 유용해요.","mistake":{"x":"What is the agenda? Any important thing to follow?","o":"What's on the agenda? Any major things I should track?","why":"'안건에 올라 있다'는 on the agenda가 정해진 조합입니다. What is the agenda는 회의 목록 자체를 묻는 말이 돼요."},"variants":[{"en":"What's on the agenda for today?","ko":"오늘 안건이 뭐예요?"},{"en":"Anything I should know about?","ko":"제가 알아야 할 거 있어요?"},{"en":"What are we covering today?","ko":"오늘 뭐를 다루나요?"},{"en":"Any big items I should follow?","ko":"제가 챙겨야 할 큰 안건 있어요?"}]},{"n":2,"title":"대표님이 검토하라고 지침을 보냈어","situation":"상사가 보낸 지침을 팀에 공유할 때","ko":"대표님이 우리가 검토해 보라고 지침을 보냈어","en":"The boss sent me some guidelines she wants us to consider.","nuance":"guidelines는 '지침'. wants us to consider는 '우리가 검토하기를 원한다'로, 목적격 뒤에 to부정사가 오는 틀입니다. consider는 '숙고하다'라서 검토·고려를 함께 담아요.","mistake":{"x":"The boss sent guidelines for we consider.","o":"The boss sent me some guidelines she wants us to consider.","why":"전치사 for 뒤에 주격 we가 올 수 없고, '우리가 ~하길 원한다'는 wants us to로 표현합니다."},"variants":[{"en":"The boss sent over some guidelines.","ko":"대표님이 지침을 보내셨어."},{"en":"She wants us to take a look at these.","ko":"이것들 한번 보라고 하셨어."},{"en":"Management sent down new guidelines.","ko":"경영진이 새 지침을 내려보냈어."},{"en":"Let's consider these points.","ko":"이 항목들을 검토해 봅시다."}]},{"n":3,"title":"또 스팸함에 있나?","situation":"메일을 보냈다는데 상대가 못 찾을 때","ko":"점심 직전에 보냈는데. 잠깐, 그거 또 스팸 폴더에 있는 거 아냐?","en":"Right before lunch. Wait. Is it sitting in your spam folder again?","nuance":"right before + 명사는 '바로 그 직전', 문장 끝의 just before는 '방금 전'. sitting in은 메일이 '들어가 있다'는 구어적 표현입니다.","mistake":{"x":"I sent just before lunch time.","o":"I sent you the email right before lunch.","why":"특정 시점 앞에는 right before를 쓰고, just before는 문장 끝에 단독으로 둡니다."},"variants":[{"en":"I sent you the email right before the meeting.","ko":"회의 직전에 메일 보냈어."},{"en":"I just sent you an email.","ko":"방금 메일 보냈어."},{"en":"Is it in your spam folder?","ko":"스팸 폴더에 있어?"},{"en":"Check your spam folder.","ko":"스팸함 좀 확인해 봐."}]},{"n":4,"title":"어떻게 진행하기로 하셨어요?","situation":"상대 팀과 논의된 결론을 확인할 때","ko":"어떻게 진행하기로 하셨나요?","en":"How did you guys decide to proceed?","nuance":"proceed는 '진행하다'의 격식체. decide to proceed는 '진행하기로 결정하다'. 캐주얼하게는 Where did you land on this?","mistake":{"x":"How did you decide to go ahead it?","o":"How did you guys decide to proceed?","why":"go ahead는 목적어를 받지 않습니다. '진행하기로 하다'는 decide to proceed로 깔끔하게 써요."},"variants":[{"en":"How did you decide to move forward?","ko":"어떻게 진행하기로 하셨어요?"},{"en":"What did you agree on?","ko":"무엇으로 합의하셨어요?"},{"en":"Where did you land on this?","ko":"이 건 어떻게 정리됐어요?"},{"en":"Which way did you go?","ko":"어느 쪽으로 하셨어요?"}]},{"n":5,"title":"전문 분야가 뭐세요?","situation":"면접이나 첫 미팅에서 상대의 전문성을 물을 때","ko":"전문 분야는 무엇이세요? / 저는 압박 속에서 빛을 발합니다","en":"What's your area of expertise? / I thrive under pressure.","nuance":"expertise는 '전문성'. thrive는 원래 '번성하다'라서 어떤 환경에서 빛을 발한다는 뜻이 됩니다. under pressure는 '압박 속에서'.","mistake":{"x":"What is your special area? / I am strong in pressure.","o":"What's your area of expertise? / I thrive under pressure.","why":"special area는 어색한 조합이고, strong in pressure는 영어에서 쓰지 않습니다."},"variants":[{"en":"What do you specialize in?","ko":"무엇을 전문으로 하세요?"},{"en":"I do my best under pressure.","ko":"저는 압박을 받을 때 최선을 냅니다."},{"en":"I work well under pressure.","ko":"압박 속에서도 잘 일합니다."},{"en":"I thrive in fast-paced environments.","ko":"빠른 환경에서 빛을 발합니다."}]},{"n":6,"title":"맡은 역할을 위해 나서야 했던 사례를 들어 주세요","situation":"면접에서 리더십·주도성을 확인하는 질문","ko":"자신의 역할을 위해 스스로 나서야 했던 사례를 들어주세요","en":"Give me an instance where you had to step up for your role.","nuance":"instance는 '사례'. step up은 '나서서 책임을 지다'. where는 앞의 instance를 꾸미는 관계부사입니다.","mistake":{"x":"Give me an example that you stepped up.","o":"Give me an instance where you had to step up for your role.","why":"example 뒤에는 보통 where나 of ~ing가 옵니다. that절로 붙이면 어색해요."},"variants":[{"en":"Can you give me an example?","ko":"예를 하나 들어 주시겠어요?"},{"en":"Tell me about a time you stepped up.","ko":"앞장섰던 때를 말씀해 주세요."},{"en":"When did you have to take the lead?","ko":"언제 주도해야 했나요?"},{"en":"Give me an instance where you had to step up.","ko":"나서야 했던 사례를 들어 주세요."}]},{"n":7,"title":"고객사 제품 현지화에 문제가 있었습니다","situation":"지난 프로젝트의 어려움을 설명하며 원인을 짚을 때","ko":"고객사 제품을 현지화하는 데 문제가 있었던 적이 있습니다. 미국 기업이 아시아에 진출할 때 자주 생기는 일이죠","en":"There was a time we encountered an issue with localizing a client's product. That tends to happen when American companies try to penetrate Asia.","nuance":"encounter an issue는 '문제를 마주하다'의 격식체. tend to는 '~하는 경향이 있다'. penetrate a market은 '시장에 침투하다·진출하다'.","mistake":{"x":"We met a problem for localizing client product.","o":"We encountered an issue with localizing a client's product.","why":"meet a problem은 콩글리시에 가깝습니다. 문제는 encounter / run into, 전치사는 with를 써요."},"variants":[{"en":"We ran into a localization issue.","ko":"현지화 문제가 생겼어요."},{"en":"We had a problem with the client's product.","ko":"고객사 제품에 문제가 있었어요."},{"en":"That tends to happen when American companies try to penetrate Asia.","ko":"미국 기업이 아시아에 진출할 때 자주 있는 일이에요."},{"en":"That's always a difficult issue to handle.","ko":"그건 늘 다루기 어려운 문제예요."}]},{"n":8,"title":"품질 문제가 가장 중요하시다는 거죠?","situation":"바이어의 요구를 정확히 이해했는지 확인할 때","ko":"품질 문제가 가장 중요하다고 생각하시는 거죠? 제가 맞게 이해했을까요?","en":"It sounds like what's most important to you is the quality issue. Did I understand you correctly?","nuance":"It sounds like ~는 '말씀을 들으니 ~인 것 같습니다'라는 확인의 틀. Did I understand you correctly?는 통화·회의에서 오해를 막는 필수 문장입니다.","mistake":{"x":"You mean quality is most important? Right?","o":"It sounds like what's most important to you is the quality issue. Did I understand you correctly?","why":"Right?만 붙이면 확인이 아니라 압박이 됩니다. 정중한 확인은 Did I understand you correctly?예요."},"variants":[{"en":"I completely understand your concerns about the order and product quality.","ko":"주문과 제품 품질에 대한 우려를 충분히 이해합니다."},{"en":"Can I ask what led you to that conclusion?","ko":"어떻게 그런 결론에 이르셨는지 여쭤봐도 될까요?"},{"en":"Are there other parts of that you'd like me to know about?","ko":"그 외에 제가 알아야 할 부분이 있을까요?"},{"en":"How would you like things to turn out?","ko":"어떻게 해결되길 원하시나요?"}]},{"n":9,"title":"이 문제는 타협할 수 없습니다","situation":"품질 문제에서 선을 분명히 그어야 할 때","ko":"이 문제에 대해서는 타협할 수 없습니다. 색상과 마감은 중대한 결함으로 보고 있습니다","en":"We cannot make any compromises on these issues. I see color and finish issues as major defects.","nuance":"make a compromise on ~은 '~에 타협하다'. see A as B는 'A를 B로 보다'. major defect는 '중대 결함', critical은 '치명적인'으로 강도를 높입니다.","mistake":{"x":"We can't compromise on these issues.","o":"We cannot make any compromises on these issues.","why":"compromise on은 문법적으로 가능하지만, '어떤 타협도 하지 않겠다'는 강한 선언은 make any compromises가 더 분명하게 들립니다."},"variants":[{"en":"I see color and finish issues as major defects.","ko":"색상과 마감 문제를 중대 결함으로 봅니다."},{"en":"Size and weight discrepancies are critical.","ko":"사이즈와 중량 차이는 치명적입니다."},{"en":"We can't compromise on quality.","ko":"품질은 타협할 수 없습니다."},{"en":"Please pay extra attention to the critical ones.","ko":"특히 중요한 부분에 더 신경 써 주세요."}]},{"n":10,"title":"양쪽에 이득이 되는 해결안을 찾을 수 있을 겁니다","situation":"가격·조건 협상에서 문을 열어 두며 마무리할 때","ko":"양측에 이득이 되는 해결안을 찾을 수 있을 것으로 봅니다","en":"We believe we can work out a solution that benefits both sides.","nuance":"work out은 '문제를 풀어 해결책을 만들어내다'. work something out은 '뭔가 방법을 찾다'. It'll work out in the end은 '결국 잘 될 거야'라는 낙관적 마무리예요.","mistake":{"x":"We can solve a solution.","o":"We can work out a solution.","why":"solve는 이미 있는 문제를 푸는 것이라 solution과 함께 쓰지 않습니다. 해결책을 '만들어내다'는 work out이에요."},"variants":[{"en":"Let me discuss it internally and see if we can work something out.","ko":"내부에서 논의하고 방법을 찾아볼게요."},{"en":"I'm sure it'll work out in the end.","ko":"결국 잘 될 거예요."},{"en":"Your worries about costs are reasonable — maybe we can work something out.","ko":"비용 걱정은 충분히 이해됩니다. 방법이 있을 겁니다."},{"en":"We can find a middle ground.","ko":"중간점을 찾을 수 있습니다."}]},{"n":11,"title":"잠깐 줌으로 통화 가능?","situation":"메일로 길게 쓰기보다 바로 통화로 정리하고 싶을 때","ko":"잠깐 줌으로 통화할 수 있어?","en":"Can we jump on a zoom call real quick?","nuance":"jump on a call은 '통화에 바로 들어가다'. real quick은 '아주 잠깐'. 대화를 정리할 땐 Well, that covers what I wanted to talk about.","mistake":{"x":"Can we do zoom call short time?","o":"Can we jump on a zoom call real quick?","why":"short time은 '짧은 시간'이라는 명사구라서 문장에 자연스럽게 붙지 않습니다. real quick이 회화의 기본형이에요."},"variants":[{"en":"Can we hop on a call?","ko":"통화 가능해요?"},{"en":"Do you have five minutes?","ko":"5분 시간 돼요?"},{"en":"Let's take this offline.","ko":"이건 따로 이야기하죠."},{"en":"Well, that covers what I wanted to talk about.","ko":"네, 제가 하고 싶은 얘기는 다 했네요."}]}],"extras":[{"en":"A: The client asked for better payment terms. B: Let me discuss it internally and see if we can work something out.","ko":"고객사가 더 나은 결제 조건을 요청했어요. 내부에서 논의하고 조정 방안을 찾아볼게요."},{"en":"A: I'm still worried about the budget issue. B: Don't worry too much. I'm sure it'll work out in the end.","ko":"예산 문제가 아직 걱정돼요. 너무 걱정 마세요, 결국 잘 될 거예요."},{"en":"If possible, we'd like to keep the schedule as is.","ko":"가능하면 일정은 그대로 유지하고 싶습니다."},{"en":"We hope this meeting strengthens our long-term partnership.","ko":"이번 만남이 장기적 파트너십을 더욱 공고히 하기를 바랍니다."},{"en":"That might be too soon.","ko":"그건 너무 이른 것 같아요."},{"en":"When do you think you can be ready?","ko":"언제쯤 준비될 것 같으세요?"},{"en":"Is there anything else that you want to try while you are here?","ko":"여기 있는 동안 더 해보고 싶은 게 있으세요?"},{"en":"Do you like working in this line of work?","ko":"이 분야에서 일하시는 건 마음에 드세요?"},{"en":"How did you do in your last job?","ko":"전 직장에서는 어떻게 지내셨나요?"},{"en":"How is the business plan going?","ko":"사업 계획서는 어떻게 돼가고 있나요?"},{"en":"We gotta do what we gotta do.","ko":"우리는 해야 할 일을 해야지."},{"en":"How much longer until we finish?","ko":"끝나려면 얼마나 더 걸려요?"},{"en":"How can I reach you? What's the best way to reach you?","ko":"어떻게 연락드리면 될까요? 가장 좋은 연락 방법은 무엇인가요?"},{"en":"I invite you to be here with me while I am here with you so that I can make this easier for you.","ko":"제가 여러분과 함께 있는 동안 더 쉽게 도와드릴 수 있도록 이 자리에 함께해 주세요."}]}]}</script>
+<script>
+/* 영어뇌 랩 — app logic (vanilla JS, no dependencies)
+   Flow per unit: ① 한국어만 보고 말하기 → ② 핵심 문장 + 뉘앙스 해설 → ③ 변형 드릴 → ④ 완료
+   Storage key: liveacademy.v1 */
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('app-data').textContent);
+  var LS_KEY = 'liveacademy.v1';
+  var UNITS = [];        // flat list of {ch, unit, id}
+  var CH = {};           // chapter id -> chapter
+
+  DATA.chapters.forEach(function (ch) {
+    CH[ch.id] = ch;
+    ch.units.forEach(function (u) {
+      u.id = ch.id + '-' + u.n;
+      u.chapterId = ch.id;
+      UNITS.push({ id: u.id, ch: ch, unit: u });
+    });
+  });
+  var TOTAL = UNITS.length;
+
+  var S = {
+    progress: {},                       // unitId -> {done, at, score}
+    days: {},                           // 'YYYY-MM-DD' -> units completed that day
+    streak: { count: 0, last: '' },
+    settings: { theme: 'system', rate: 1, autoPlay: true },
+    ui: { tab: 'home', chapter: '' }
+  };
+  var UI = { tab: 'home', open: '' };
+  var L = null;   // lesson state
+  var R = null;   // review state
+  var rate = 1;
+
+  /* ---------------------------------------------------------------- helpers */
+  function $(sel, root) { return (root || document).querySelector(sel); }
+  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+  function todayStr(d) {
+    d = d || new Date();
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  function shiftDay(str, delta) {
+    var p = str.split('-');
+    var dt = new Date(+p[0], +p[1] - 1, +p[2]);
+    dt.setDate(dt.getDate() + delta);
+    return todayStr(dt);
+  }
+  function toast(msg) {
+    var t = $('#toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+  function unitById(id) {
+    for (var i = 0; i < UNITS.length; i++) if (UNITS[i].id === id) return UNITS[i];
+    return null;
+  }
+  function nextUnitId(id) {
+    for (var i = 0; i < UNITS.length; i++) if (UNITS[i].id === id) return UNITS[i + 1] ? UNITS[i + 1].id : null;
+    return null;
+  }
+  function isDone(id) { return !!(S.progress[id] && S.progress[id].done); }
+  function doneCount() {
+    var n = 0;
+    for (var i = 0; i < UNITS.length; i++) if (isDone(UNITS[i].id)) n++;
+    return n;
+  }
+  function chapterDone(ch) {
+    var n = 0;
+    ch.units.forEach(function (u) { if (isDone(u.id)) n++; });
+    return n;
+  }
+
+  /* ------------------------------------------------------------- persistence */
+  function load() {
+    try {
+      var raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      var o = JSON.parse(raw);
+      if (!o || typeof o !== 'object') return;
+      if (o.progress && typeof o.progress === 'object') S.progress = o.progress;
+      if (o.days && typeof o.days === 'object') S.days = o.days;
+      if (o.streak) S.streak = { count: o.streak.count || 0, last: o.streak.last || '' };
+      if (o.settings) S.settings = Object.assign(S.settings, o.settings);
+      if (o.ui) S.ui = Object.assign(S.ui, o.ui);
+    } catch (e) { /* corrupted storage: start fresh */ }
+  }
+  function save() {
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify({
+        progress: S.progress, days: S.days, streak: S.streak, settings: S.settings, ui: S.ui
+      }));
+    } catch (e) { /* storage full or blocked */ }
+  }
+
+  /* ------------------------------------------------------------------ theme */
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function applyTheme() {
+    var t = S.settings.theme || 'system';
+    var dark = t === 'dark' || (t === 'system' && mq && mq.matches);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', dark ? '#05141d' : '#0A2239');
+  }
+  if (mq && mq.addEventListener) mq.addEventListener('change', applyTheme);
+
+  /* ----------------------------------------------------------------- streak */
+  function currentStreak() {
+    var t = todayStr();
+    if (S.streak.last === t) return S.streak.count || 0;
+    if (S.streak.last === shiftDay(t, -1)) return S.streak.count || 0;
+    return 0;
+  }
+  function bumpStreak() {
+    var t = todayStr();
+    S.days[t] = (S.days[t] || 0) + 1;
+    if (S.streak.last === t) { save(); return; }
+    S.streak.count = (S.streak.last === shiftDay(t, -1)) ? (S.streak.count || 0) + 1 : 1;
+    S.streak.last = t;
+    save();
+  }
+
+  /* -------------------------------------------------------- speech synthesis */
+  var voices = [];
+  function refreshVoices() {
+    try { voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : []; } catch (e) { voices = []; }
+  }
+  if ('speechSynthesis' in window) {
+    refreshVoices();
+    window.speechSynthesis.onvoiceschanged = refreshVoices;
+  }
+  function pickVoice() {
+    var prefs = ['Google US English', 'Samantha', 'Ava', 'Allison',
+      'Microsoft Aria Online (Natural)', 'Microsoft Jenny Online (Natural)', 'Microsoft Zira', 'Karen', 'Daniel', 'Alex'];
+    var i, j;
+    for (i = 0; i < prefs.length; i++) for (j = 0; j < voices.length; j++) if (voices[j].name === prefs[i]) return voices[j];
+    for (i = 0; i < voices.length; i++) if (/^en[-_]US/i.test(voices[i].lang)) return voices[i];
+    for (i = 0; i < voices.length; i++) if (/^en/i.test(voices[i].lang)) return voices[i];
+    return null;
+  }
+  function speak(text, r) {
+    if (!('speechSynthesis' in window)) { toast('이 브라우저는 음성 재생을 지원하지 않아요.'); return; }
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      var v = pickVoice();
+      if (v) u.voice = v;
+      u.lang = (v && v.lang) || 'en-US';
+      u.rate = r || rate || 1;
+      u.pitch = 1;
+      window.speechSynthesis.speak(u);
+    } catch (e) { toast('음성을 재생하지 못했어요.'); }
+  }
+
+  /* ------------------------------------------------------ speech recognition */
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var recog = null;
+  function srSupported() { return !!SR; }
+  function listen(onResult, onEnd) {
+    if (!SR) { onEnd && onEnd('unsupported'); return null; }
+    try {
+      if (recog) { try { recog.abort(); } catch (e) { } }
+      var r = new SR();
+      r.lang = 'en-US';
+      r.interimResults = false;
+      r.maxAlternatives = 1;
+      r.continuous = false;
+      var done = false;
+      r.onresult = function (ev) {
+        done = true;
+        var txt = '';
+        for (var i = 0; i < ev.results.length; i++) txt += ev.results[i][0].transcript + ' ';
+        onResult(txt.trim());
+      };
+      r.onerror = function (ev) { done = true; onEnd && onEnd(ev.error || 'error'); };
+      r.onend = function () { if (!done) onEnd && onEnd('no-speech'); };
+      recog = r;
+      r.start();
+      return r;
+    } catch (e) {
+      onEnd && onEnd('start-failed');
+      return null;
+    }
+  }
+
+  /* --------------------------------------------------------------- scoring */
+  var CONTR = {
+    "i'm": 'i am', "i've": 'i have', "i'll": 'i will', "i'd": 'i would',
+    "you're": 'you are', "you've": 'you have', "you'll": 'you will', "you'd": 'you would',
+    "we're": 'we are', "we've": 'we have', "we'll": 'we will', "we'd": 'we would',
+    "they're": 'they are', "they've": 'they have', "they'll": 'they will',
+    "he's": 'he is', "she's": 'she is', "it's": 'it is', "that's": 'that is',
+    "there's": 'there is', "what's": 'what is', "let's": 'let us', "here's": 'here is',
+    "don't": 'do not', "doesn't": 'does not', "didn't": 'did not',
+    "can't": 'cannot', "couldn't": 'could not', "won't": 'will not',
+    "wouldn't": 'would not', "shouldn't": 'should not', "isn't": 'is not',
+    "aren't": 'are not', "wasn't": 'was not', "weren't": 'were not',
+    "haven't": 'have not', "hasn't": 'has not', "hadn't": 'had not',
+    "gonna": 'going to', "wanna": 'want to', "gotta": 'got to'
+  };
+  function cleanWord(w) {
+    return String(w).toLowerCase().replace(/[’‘`]/g, "'").replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, '');
+  }
+  function expand(s) {
+    var orig = String(s).replace(/[’‘`]/g, "'").replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
+    var words = [], map = [];
+    orig.forEach(function (w, i) {
+      var c = cleanWord(w);
+      if (!c) { map.push(i); return; }
+      var m = CONTR[c];
+      if (m) m.split(' ').forEach(function (x) { words.push(x); map.push(i); });
+      else { words.push(c); map.push(i); }
+    });
+    return { orig: orig, words: words, map: map };
+  }
+  function evaluate(target, said) {
+    var t = expand(target), s = expand(said);
+    var n = t.words.length, m = s.words.length, i, j;
+    var dp = [];
+    for (i = 0; i <= n; i++) { dp[i] = []; for (j = 0; j <= m; j++) dp[i][j] = 0; }
+    for (i = 1; i <= n; i++) {
+      for (j = 1; j <= m; j++) {
+        dp[i][j] = t.words[i - 1] === s.words[j - 1]
+          ? dp[i - 1][j - 1] + 1
+          : Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+    var ok = new Array(n);
+    for (i = 0; i < n; i++) ok[i] = false;
+    var a = n, b = m;
+    while (a > 0 && b > 0) {
+      if (t.words[a - 1] === s.words[b - 1]) { ok[a - 1] = true; a--; b--; }
+      else if (dp[a - 1][b] >= dp[a][b - 1]) a--; else b--;
+    }
+    var origOk = new Array(t.orig.length);
+    for (i = 0; i < t.orig.length; i++) origOk[i] = false;
+    for (i = 0; i < n; i++) if (ok[i]) origOk[t.map[i]] = true;
+    for (i = 0; i < t.orig.length; i++) if (!cleanWord(t.orig[i])) origOk[i] = true;
+    var matched = dp[n][m];
+    var pct = n ? Math.round(matched / n * 100) : 0;
+    var marks = t.orig.map(function (w, k) {
+      return '<span class="w ' + (origOk[k] ? 'ok' : 'miss') + '">' + esc(w) + '</span>';
+    }).join(' ');
+    return { pct: pct, matched: matched, total: n, marks: marks, origOk: origOk };
+  }
+  function feedback(pct) {
+    if (pct >= 95) return ['good', '완벽해요. 원어민과 거의 같아요.'];
+    if (pct >= 80) return ['good', '아주 좋아요. 이 문장은 이제 입에 붙었어요.'];
+    if (pct >= 60) return ['mid', '좋아요. 빠진 단어만 다시 한 번 붙여 말해 보세요.'];
+    if (pct >= 35) return ['mid', '핵심은 잡았어요. 0.8배속으로 듣고 천천히 따라 해 보세요.'];
+    return ['low', '괜찮아요. 먼저 듣고, 한 구절씩 끊어서 말해 보세요.'];
+  }
+  function resultHtml(target, said) {
+    var ev = evaluate(target, said);
+    var f = feedback(ev.pct);
+    var color = ev.pct >= 80 ? 'var(--ok)' : ev.pct >= 55 ? 'var(--warn)' : 'var(--bad)';
+    return '<div class="result">' +
+      '<div class="said">내가 말한 문장 · <b>' + esc(said) + '</b></div>' +
+      '<div class="marks">' + ev.marks + '</div>' +
+      '<div class="mbar"><i style="width:' + ev.pct + '%;background:' + color + '"></i></div>' +
+      '<div class="mscore"><span class="num" style="color:' + color + '">' + ev.pct + '%</span>' +
+      '<span>' + ev.matched + '/' + ev.total + ' 단어 일치</span></div>' +
+      '<div class="fb ' + f[0] + '">' + f[1] + '</div>' +
+      '</div>';
+  }
+
+  /* ------------------------------------------------------------------ icons */
+  var I = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.3c0-.8.9-1.3 1.6-.9l9.2 6.7c.6.4.6 1.4 0 1.8l-9.2 6.7c-.7.4-1.6-.1-1.6-.9V5.3z"/></svg>',
+    speaker: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9.5h3.2L12 5.6v12.8L7.2 14.5H4a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1z"/><path d="M15.5 8.6a4.6 4.6 0 0 1 0 6.8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2.5" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18.2V21"/></svg>',
+    keys: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10" rx="2.4"/><path d="M6.5 11h.01M10 11h.01M13.5 11h.01M17 11h.01M8 14h8"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
+    ear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 3-2 4-3.5 5.2C13 15.3 13 17 13 18a3 3 0 0 1-6 0"/></svg>',
+    loop: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10a7 7 0 0 1 12-4l2 2"/><path d="M18 4v4h-4"/><path d="M20 14a7 7 0 0 1-12 4l-2-2"/><path d="M6 20v-4h4"/></svg>',
+    gear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.88V9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
+  };
+
+  /* -------------------------------------------------------------- chrome */
+  function updateChrome() {
+    var st = currentStreak();
+    var sn = $('#streakNum');
+    if (sn) sn.textContent = String(st);
+    var sb = $('#streakBox');
+    if (sb) sb.title = st > 0 ? st + '일 연속 학습 중' : '오늘 한 유닛을 끝내면 불이 붙어요';
+    $$('.tabbar button').forEach(function (b) {
+      var on = b.getAttribute('data-tab') === UI.tab && !L;
+      if (on) b.setAttribute('aria-current', 'page');
+      else b.removeAttribute('aria-current');
+    });
+  }
+
+  /* ---------------------------------------------------------------- home */
+  function nextTarget() {
+    for (var i = 0; i < UNITS.length; i++) if (!isDone(UNITS[i].id)) return UNITS[i];
+    return UNITS[0];
+  }
+  function renderHome() {
+    var main = $('#main');
+    var done = doneCount();
+    var pct = TOTAL ? Math.round(done / TOTAL * 100) : 0;
+    var t = nextTarget();
+    var openId = UI.open || '';
+    if (!openId) {
+      for (var i = 0; i < DATA.chapters.length; i++) {
+        var c = DATA.chapters[i];
+        if (chapterDone(c) < c.units.length) { openId = c.id; break; }
+      }
+    }
+    if (!openId) openId = DATA.chapters[0].id;
+    UI.open = openId;
+
+    var html = '';
+    html += '<div class="h1">한국어를 듣고, <em>영어로 말하기</em></div>';
+    html += '<p class="sub">' + DATA.chapters.length + '개 챕터 · ' + TOTAL + '개 유닛 · 하루 3문장이면 충분해요</p>';
+
+    html += '<section class="hero">' +
+      '<div class="hero-top">' +
+        '<div>' +
+          '<div class="hero-kicker">' + (done === 0 ? 'Start here' : 'Continue') + '</div>' +
+          '<div class="hero-title">' + esc(t.unit.title) + '</div>' +
+          '<p class="hero-note">' + esc(t.ch.name) + ' · 유닛 ' + t.unit.n + '</p>' +
+        '</div>' +
+        '<div class="ring">' +
+          '<svg width="66" height="66" viewBox="0 0 66 66">' +
+            '<circle class="ring-track" cx="33" cy="33" r="28" fill="none" stroke-width="6"/>' +
+            '<circle class="ring-fill" cx="33" cy="33" r="28" fill="none" stroke-width="6" ' +
+              'stroke-dasharray="175.9" stroke-dashoffset="' + (175.9 - 175.9 * pct / 100).toFixed(1) + '"/>' +
+          '</svg>' +
+          '<div class="ring-num">' + pct + '%</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="hero-bar"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="hero-foot"><span>' + done + ' / ' + TOTAL + ' 유닛 완료</span><span>' + (pct === 100 ? '모든 유닛 완료 🎉' : '남은 유닛 ' + (TOTAL - done)) + '</span></div>' +
+      '<button class="hero-cta" data-act="unit" data-id="' + t.id + '">' +
+        (done === 0 ? '첫 문장 시작하기' : '이어서 학습하기') +
+        '<small>' + (done === 0 ? '' : Math.min(3, Math.max(1, 3)) + '분') + '</small>' +
+      '</button>' +
+    '</section>';
+
+    html += '<div class="section-title">커리큘럼<span>' + DATA.chapters.length + ' chapters</span></div>';
+
+    DATA.chapters.forEach(function (ch, idx) {
+      var cd = chapterDone(ch);
+      var cp = ch.units.length ? Math.round(cd / ch.units.length * 100) : 0;
+      var open = ch.id === openId;
+      html += '<section class="chapter' + (open ? ' open' : '') + '">' +
+        '<div class="chapter-head" data-act="chapter" data-ch="' + ch.id + '" role="button" tabindex="0" aria-expanded="' + open + '">' +
+          '<div class="chapter-no">0' + (idx + 1) + '</div>' +
+          '<div class="chapter-main">' +
+            '<div class="chapter-name">' + esc(ch.name) + '</div>' +
+            '<p class="chapter-sub">' + esc(ch.subtitle) + '</p>' +
+          '</div>' +
+          '<div class="chapter-right">' +
+            '<span class="chapter-count">' + cd + '/' + ch.units.length + '</span>' + I.chev +
+          '</div>' +
+        '</div>' +
+        '<div class="chapter-bar"><i style="width:' + cp + '%"></i></div>' +
+        '<div class="chapter-body">' +
+          '<p class="chapter-tagline">' + esc(ch.tagline) + '</p>';
+      ch.units.forEach(function (u) {
+        var d = isDone(u.id);
+        html += '<button class="unit' + (d ? ' done' : '') + '" data-act="unit" data-id="' + u.id + '">' +
+          '<span class="unit-n">' + (d ? '✓' : u.n) + '</span>' +
+          '<span class="unit-txt"><span class="unit-title">' + esc(u.title) + '</span>' +
+          '<span class="unit-ko">' + esc(u.ko) + '</span></span>' +
+          '<span class="unit-go">' + (d ? '완료' : '학습 ›') + '</span>' +
+        '</button>';
+      });
+      html += '<details class="extras"><summary>이 챕터의 추가 표현 ' + ch.extras.length + '개</summary>';
+      ch.extras.forEach(function (e) {
+        html += '<div class="ex"><span>·</span><div><b>' + esc(e.en) + '</b><br>' + esc(e.ko) + '</div></div>';
+      });
+      html += '</details></div></section>';
+    });
+
+    main.innerHTML = html;
+  }
+
+  /* --------------------------------------------------------------- lesson */
+  function openUnit(id) {
+    var ref = unitById(id);
+    if (!ref) return;
+    L = { id: id, ch: ref.ch, unit: ref.unit, step: 1, res: {}, said: {}, typed: {}, revealed: {}, done: {} };
+    rate = S.settings.rate || 1;
+    renderLesson();
+    if (S.settings.autoPlay && L.step === 1) { /* step 1 hides English: no autoplay */ }
+  }
+  function closeLesson() {
+    L = null;
+    var el = $('#lesson');
+    if (el) { el.hidden = true; el.innerHTML = ''; }
+    render();
+  }
+  function stepsHtml(step) {
+    var h = '<div class="steps">';
+    for (var i = 1; i <= 4; i++) h += '<i class="' + (i === step ? 'on' : (i < step ? 'past' : '')) + '"></i>';
+    return h + '</div>';
+  }
+  function speedCtl() {
+    return '<div class="speed">' +
+      '<button data-act="say" data-say="' + esc(L.unit.en) + '" data-rate="1">' + I.speaker + ' 1.0x</button>' +
+      '<button data-act="say" data-say="' + esc(L.unit.en) + '" data-rate="0.8">' + I.speaker + ' 0.8x</button>' +
+      '<button data-act="say" data-say="' + esc(L.unit.en) + '" data-rate="0.55">' + I.ear + ' 아주 느리게</button>' +
+      '</div>';
+  }
+  function renderLesson() {
+    if (!L) return;
+    var el = $('#lesson');
+    el.hidden = false;
+    var u = L.unit;
+    var body = '';
+    if (L.step === 1) body = step1();
+    else if (L.step === 2) body = step2();
+    else if (L.step === 3) body = step3();
+    else body = step4();
+
+    el.innerHTML =
+      '<div class="lesson-head">' +
+        '<button class="icon-btn" data-act="close-lesson" aria-label="닫기">' + I.back + '</button>' +
+        '<div class="lesson-title">' + esc(u.title) + '<small>' + esc(L.ch.name) + ' · ' + L.step + '/4 단계</small></div>' +
+        '<button class="icon-btn" data-act="close-lesson" aria-label="학습 종료">' + I.close + '</button>' +
+      '</div>' + stepsHtml(L.step) +
+      '<div class="lesson-body" id="lbody">' + body + '</div>' +
+      footHtml();
+    var lb = $('#lbody');
+    if (lb) lb.scrollTop = 0;
+    if (L.step === 2 && S.settings.autoPlay && !L.spoke) {
+      L.spoke = true;
+      setTimeout(function () { if (L && L.step === 2) speak(L.unit.en, rate); }, 320);
+    }
+    updateChrome();
+  }
+  function footHtml() {
+    var u = L.unit;
+    var h = '<div class="lesson-foot">';
+    if (L.step > 1) h += '<button class="btn ghost" data-act="prev" style="flex:0 0 84px">이전</button>';
+    if (L.step === 1) h += '<button class="btn primary" data-act="next">영어 문장 보기</button>';
+    else if (L.step === 2) h += '<button class="btn primary" data-act="next">변형 드릴 시작</button>';
+    else if (L.step === 3) h += '<button class="btn primary" data-act="next">드릴 마무리</button>';
+    else {
+      var nx = nextUnitId(L.id);
+      h += '<button class="btn primary" data-act="complete">' + (isDone(u.id) ? '복습 완료 표시' : '이 유닛 완료') + '</button>';
+      if (nx) h += '<button class="btn ghost" data-act="next-unit" data-id="' + nx + '" style="flex:0 0 92px">다음 ›</button>';
+    }
+    return h + '</div>';
+  }
+  function step1() {
+    var u = L.unit;
+    var said = L.said.key;
+    var h = '<div class="step-label">STEP 1 · 영어 뇌 깨우기</div>';
+    h += '<div class="sit"><b>상황</b><p>' + esc(u.situation) + '</p></div>';
+    h += '<p class="kobig">' + esc(u.ko) + '</p>';
+    h += '<p class="konote">영어 문장은 아직 보지 마세요. 지금 떠오르는 단어로 그냥 말해 보세요. 틀려도 괜찮아요.</p>';
+    h += '<div class="mic-row">' +
+      '<button class="btn mic" data-act="mic" data-i="key">' + I.mic + ' 말해보기</button>' +
+      '<button class="btn" data-act="toggle-type" data-i="key" style="flex:0 0 96px">' + I.keys + ' 타이핑</button>' +
+      '</div>';
+    h += '<div class="typebox" id="type-key" hidden><input data-input="key" type="text" autocomplete="off" autocapitalize="off" placeholder="영어로 입력 후 Enter" />' +
+      '<div style="margin-top:8px"><button class="btn block" data-act="submit-type" data-i="key">확인</button></div></div>';
+    if (said) h += '<div id="res-key">' + resultHtml(u.en, said) + '</div>';
+    h += '<div class="mask-hint"><b>힌트</b> 정답을 몰라도 괜찮아요. 말해 본 뒤 2단계에서 비교하면 기억에 오래 남습니다.</div>';
+    return h;
+  }
+  function step2() {
+    var u = L.unit;
+    var h = '<div class="step-label">STEP 2 · 핵심 문장과 뉘앙스</div>';
+    h += '<div class="encard"><p class="en">' + esc(u.en) + '<small>' + esc(u.ko) + '</small></p>' + speedCtl() + '</div>';
+    h += '<div class="panel nuance"><h3>왜 이 표현일까</h3><p>' + esc(u.nuance) + '</p></div>';
+    if (u.mistake) {
+      h += '<div class="panel"><h3>직역 vs 원어민</h3><div class="mistake">' +
+        '<div class="mx bad"><span class="tag">✕</span><span class="txt">' + esc(u.mistake.x) + '</span></div>' +
+        '<div class="mx good"><span class="tag">✓</span><span class="txt">' + esc(u.mistake.o) + '</span></div>' +
+        '</div><p class="why">' + esc(u.mistake.why) + '</p></div>';
+    }
+    if (L.said.key && L.res.key) {
+      h += '<div class="panel"><h3>1단계에서 내가 말한 문장</h3>' +
+        '<p style="font-size:12.5px;color:var(--text-2)">' + esc(L.said.key) + ' · ' + L.res.key + '% 일치</p></div>';
+    }
+    h += '<div class="panel"><h3>한 번 따라 말하기</h3><p style="color:var(--text-2);font-size:12.5px">소리 내어 두 번 따라 말한 뒤 다음으로 넘어가세요. 목소리를 내는 것이 기억을 만듭니다.</p>' +
+      '<div class="vacts" style="margin-top:10px"><button class="mini" data-act="say" data-say="' + esc(u.en) + '" data-rate="0.8">' + I.speaker + ' 0.8배속으로 듣기</button></div></div>';
+    return h;
+  }
+  function step3() {
+    var u = L.unit;
+    var h = '<div class="step-label">STEP 3 · 변형 패턴 드릴</div>';
+    h += '<p class="drill-intro">뼈대는 그대로 두고 주어·시제·대상만 바꿔 말합니다. 3~4문장을 연달아 말하면 입에 붙어요.</p>';
+    u.variants.forEach(function (v, i) {
+      var res = L.res['v' + i];
+      var shown = L.revealed['v' + i];
+      h += '<div class="vcard" data-v="' + i + '">' +
+        '<div class="vcard-head"><span class="vnum">' + (i + 1) + '</span>' +
+        (shown
+          ? '<div class="ven">' + esc(v.en) + '</div>'
+          : '<div class="ven" style="color:var(--text-3);font-weight:600">' + esc(v.ko) + '</div>') +
+        '</div>' +
+        (shown ? '<div class="vko">' + esc(v.ko) + '</div>' : '') +
+        '<div class="vacts">' +
+          '<button class="mini' + (L.done['v' + i] ? ' done' : '') + '" data-act="mic" data-i="v' + i + '">' + I.mic + ' 말하기</button>' +
+          '<button class="mini" data-act="toggle-type" data-i="v' + i + '">' + I.keys + ' 타이핑</button>' +
+          '<button class="mini" data-act="say" data-say="' + esc(v.en) + '" data-rate="0.8">' + I.speaker + ' 듣기</button>' +
+          '<button class="mini" data-act="reveal" data-i="v' + i + '">' + (shown ? '가리기' : '영어 보기') + '</button>' +
+        '</div>' +
+        '<div class="typebox" id="type-v' + i + '" hidden><input data-input="v' + i + '" type="text" autocomplete="off" placeholder="영어로 입력 후 Enter" />' +
+        '<div style="margin-top:8px"><button class="btn block" data-act="submit-type" data-i="v' + i + '">확인</button></div></div>' +
+        '<div id="res-v' + i + '">' + (res ? resultHtml(v.en, res) : '') + '</div>' +
+      '</div>';
+    });
+    return h;
+  }
+  function step4() {
+    var u = L.unit;
+    var keyPct = L.res.key;
+    var h = '<div class="done-wrap">' +
+      '<div class="done-badge">' + I.check + '</div>' +
+      '<h2>이 유닛을 다 훑었어요</h2>' +
+      '<p>말해 본 문장은 ' + Object.keys(L.res).length + '개. 완료를 누르면 진도와 연속 학습에 기록됩니다.</p>' +
+      '</div>';
+    h += '<div class="recap">' +
+      '<div class="rrow"><b>핵심</b><span>' + esc(u.en) + '</span></div>' +
+      '<div class="rrow"><b>뉘앙스</b><span>' + esc(u.nuance) + '</span></div>' +
+      '<div class="rrow"><b>변형</b><span>' + u.variants.map(function (v) { return esc(v.en); }).join(' / ') + '</span></div>' +
+      (keyPct != null ? '<div class="rrow"><b>1단계</b><span>' + keyPct + '% 일치 · ' + esc(L.said.key) + '</span></div>' : '') +
+      '</div>';
+    h += '<div class="panel"><h3>다음에 이어서</h3><p>' + (nextUnitId(L.id) ? esc((unitById(nextUnitId(L.id)) || {}).unit.title || '') : '마지막 유닛이에요. 복습 탭에서 무작위로 다시 말해 보세요.') + '</p></div>';
+    return h;
+  }
+
+  /* --------------------------------------------------------------- review */
+  function doneUnits() {
+    var out = [];
+    UNITS.forEach(function (r) { if (isDone(r.id)) out.push(r); });
+    return out;
+  }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function renderReview() {
+    var main = $('#main');
+    var pool = doneUnits();
+    var html = '';
+    html += '<div class="h1">랜덤 복습</div>';
+    html += '<p class="sub">완료한 유닛에서 무작위로 뽑아 한국어만 보고 영어를 꺼내 봅니다.</p>';
+
+    if (!pool.length) {
+      html += '<div class="review-card" style="text-align:center;padding:28px 18px">' +
+        '<div class="done-badge" style="margin-bottom:14px">' + I.loop + '</div>' +
+        '<h2>아직 복습할 유닛이 없어요</h2>' +
+        '<p style="margin-bottom:16px">학습 탭에서 유닛을 하나 완료하면 여기에 쌓입니다.</p>' +
+        '<button class="btn primary block" data-act="tab" data-tab="home">학습하러 가기</button></div>';
+      main.innerHTML = html;
+      return;
+    }
+
+    if (!R) {
+      var rc = S.review || {};
+      html += '<div class="review-card">' +
+        '<h2>' + pool.length + '개 유닛이 복습 대기 중</h2>' +
+        '<p>10문제를 풀면 정답률이 기록됩니다. 틀린 문제는 다음 복습에 다시 나와요.</p>' +
+        '<div class="seg" role="group" aria-label="복습 방식">' +
+          '<button data-act="review-mode" data-v="choice" aria-pressed="' + ((S.settings.reviewMode || 'choice') === 'choice') + '">객관식</button>' +
+          '<button data-act="review-mode" data-v="say" aria-pressed="' + ((S.settings.reviewMode || 'choice') === 'say') + '">말하기 채점</button>' +
+        '</div>' +
+        '<button class="btn primary block" data-act="review-start">복습 시작</button>' +
+        (rc.last ? '<p class="small">지난 복습 · ' + rc.last + ' · ' + rc.score + '/' + rc.total + ' 정답</p>' : '') +
+      '</div>';
+      main.innerHTML = html;
+      return;
+    }
+
+    if (R.done) {
+      var pct = R.total ? Math.round(R.correct / R.total * 100) : 0;
+      html += '<div class="review-card" style="text-align:center">' +
+        '<div class="qmeta"><span>결과</span><span>' + (R.mode === 'say' ? '말하기' : '객관식') + '</span></div>' +
+        '<div class="score-big">' + pct + '%</div>' +
+        '<p style="margin-top:8px">' + R.total + '문제 중 ' + R.correct + '개 정답</p>' +
+        '<p class="small" style="margin-bottom:16px">' + (pct >= 80 ? '아주 좋아요. 이 표현들은 오래 남을 거예요.' : pct >= 50 ? '좋아요. 틀린 문장만 소리 내어 두 번 더 읽어 보세요.' : '괜찮아요. 학습 탭에서 뉘앙스를 다시 보고 오면 훨씬 쉬워집니다.') + '</p>' +
+        '<button class="btn primary block" data-act="review-again">한 번 더</button>' +
+        '<div style="height:8px"></div>' +
+        '<button class="btn block" data-act="review-close">복습 화면으로</button></div>';
+      main.innerHTML = html;
+      return;
+    }
+
+    var q = R.items[R.idx];
+    html += '<div class="review-card">' +
+      '<div class="qmeta"><span>QUESTION ' + (R.idx + 1) + ' / ' + R.items.length + '</span><span>' + esc(q.ch.name) + '</span></div>' +
+      '<p class="quiz-q">' + esc(q.unit.ko) + '</p>' +
+      '<p class="quiz-sit">' + esc(q.unit.situation) + '</p>';
+
+    if (R.mode === 'choice') {
+      q.options.forEach(function (op, i) {
+        var cls = 'opt';
+        if (R.answered) {
+          if (op === q.unit.en) cls += ' right';
+          else if (i === R.picked) cls += ' wrong';
+        }
+        html += '<button class="' + cls + '" data-act="review-opt" data-i="' + i + '"' + (R.answered ? ' disabled' : '') + '>' + esc(op) + '</button>';
+      });
+      if (R.answered) {
+        html += '<div class="qresult">' + (R.pickedEn === q.unit.en ? '정답이에요.' : '정답은 <b>' + esc(q.unit.en) + '</b>') + ' · ' + esc(q.unit.ko) + '</div>';
+        html += '<div style="margin-top:12px"><button class="btn primary block" data-act="review-next">' + (R.idx === R.items.length - 1 ? '결과 보기' : '다음 문제') + '</button></div>';
+      }
+    } else {
+      html += '<div class="mic-row">' +
+        '<button class="btn mic" data-act="review-mic">' + I.mic + ' 말하기</button>' +
+        '<button class="btn" data-act="toggle-type" data-i="rv" style="flex:0 0 96px">' + I.keys + ' 타이핑</button></div>' +
+        '<div class="typebox" id="type-rv" hidden><input id="rv-input" type="text" autocomplete="off" placeholder="영어로 입력 후 Enter" />' +
+        '<div style="margin-top:8px"><button class="btn block" data-act="review-say">확인</button></div></div>';
+      if (R.answered) {
+        html += '<div id="res-rv">' + resultHtml(q.unit.en, R.said || '') + '</div>' +
+          '<div style="margin-top:12px"><button class="btn primary block" data-act="review-next">' + (R.idx === R.items.length - 1 ? '결과 보기' : '다음 문제') + '</button></div>';
+      }
+    }
+    html += '</div>';
+    main.innerHTML = html;
+  }
+  function startReview() {
+    var pool = shuffle(doneUnits());
+    var n = Math.min(10, pool.length);
+    var items = [];
+    for (var i = 0; i < n; i++) {
+      var ref = pool[i];
+      var opts = [ref.unit.en];
+      var others = shuffle(UNITS.filter(function (r) { return r.id !== ref.id; }));
+      for (var j = 0; j < others.length && opts.length < 4; j++) {
+        if (opts.indexOf(others[j].unit.en) === -1) opts.push(others[j].unit.en);
+      }
+      items.push({ id: ref.id, ch: ref.ch, unit: ref.unit, options: shuffle(opts) });
+    }
+    R = { items: items, idx: 0, correct: 0, total: items.length, answered: false, mode: S.settings.reviewMode || 'choice' };
+  }
+  function finishReview() {
+    R.done = true;
+    S.review = { last: todayStr(), score: R.correct, total: R.total };
+    save();
+    renderReview();
+  }
+
+  /* ---------------------------------------------------------------- stats */
+  function renderStats() {
+    var main = $('#main');
+    var done = doneCount();
+    var pct = TOTAL ? Math.round(done / TOTAL * 100) : 0;
+    var last14 = [];
+    for (var i = 13; i >= 0; i--) {
+      var d = shiftDay(todayStr(), -i);
+      last14.push({ d: d, n: S.days[d] || 0 });
+    }
+    var maxN = 1;
+    last14.forEach(function (x) { if (x.n > maxN) maxN = x.n; });
+
+    var html = '<div class="h1">학습 기록</div>';
+    html += '<p class="sub">진도와 연속 학습은 이 기기에 저장되고, 백업으로 옮길 수 있어요.</p>';
+    html += '<div class="stat-grid">' +
+      '<div class="stat"><b>' + done + '</b><span>완료 유닛</span></div>' +
+      '<div class="stat"><b>' + pct + '%</b><span>전체 진도</span></div>' +
+      '<div class="stat"><b>' + Object.keys(S.days).length + '</b><span>학습한 날</span></div>' +
+      '</div>';
+
+    html += '<div class="streakbox"><div class="big">' + currentStreak() + '</div><div>' +
+      '<div class="lbl">일 연속 학습</div>' +
+      '<div class="lbl" style="color:var(--text-3);font-size:11px">' + (S.streak.last ? '마지막 학습 ' + S.streak.last : '오늘 첫 유닛을 완료해 보세요') + '</div>' +
+      '</div></div>';
+
+    html += '<div class="section-title">최근 14일<span>완료 유닛 수</span></div>';
+    html += '<div class="bars">';
+    last14.forEach(function (x, i) {
+      var hgt = Math.round((x.n / maxN) * 46) + (x.n ? 4 : 0);
+      html += '<div><i class="' + (x.n ? 'on' : '') + '" style="height:' + (x.n ? hgt : 3) + 'px"></i>' +
+        (i % 2 === 0 || i === 13 ? '<span>' + x.d.slice(8) + '</span>' : '<span>&nbsp;</span>') + '</div>';
+    });
+    html += '</div>';
+
+    html += '<div class="section-title">챕터별 진행률</div><div class="chprog">';
+    DATA.chapters.forEach(function (ch) {
+      var cd = chapterDone(ch);
+      var cp = ch.units.length ? Math.round(cd / ch.units.length * 100) : 0;
+      html += '<div class="row"><span class="nm">' + esc(ch.name) + '</span>' +
+        '<span class="ct">' + cd + '/' + ch.units.length + '</span>' +
+        '<span class="track"><i style="width:' + cp + '%"></i></span></div>';
+    });
+    html += '</div>';
+
+    html += '<div class="section-title">백업</div>' +
+      '<div class="review-card">' +
+      '<p>학습 기록을 JSON으로 내려받거나 복사해 두고, 다른 기기에서 복원할 수 있어요.</p>' +
+      '<div class="mic-row"><button class="btn" data-act="backup-file">파일로 저장</button>' +
+      '<button class="btn" data-act="backup-copy">복사</button></div>' +
+      '<div class="mic-row" style="margin-top:8px"><button class="btn" data-act="restore-pick">파일에서 복원</button>' +
+      '<button class="btn" data-act="settings">설정 열기</button></div>' +
+      '</div>';
+    main.innerHTML = html;
+  }
+
+  /* --------------------------------------------------------------- backup */
+  var DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  var isArr = function (v) { return Object.prototype.toString.call(v) === '[object Array]'; };
+
+  function backupPayload() {
+    var p = { progress: {}, days: {}, streak: { count: 0, last: '' }, settings: {} };
+    Object.keys(S.progress || {}).forEach(function (k) {
+      var v = S.progress[k];
+      if (!unitById(k) || !v || !v.done) return;
+      var e = { done: true };
+      if (typeof v.at === 'string' && DATE_RE.test(v.at)) e.at = v.at;
+      if (typeof v.score === 'number') e.score = v.score;
+      p.progress[k] = e;
+    });
+    Object.keys(S.days || {}).forEach(function (k) {
+      if (DATE_RE.test(k) && typeof S.days[k] === 'number') p.days[k] = S.days[k];
+    });
+    p.streak = { count: S.streak.count || 0, last: S.streak.last || '' };
+    ['theme', 'rate', 'autoPlay', 'reviewMode'].forEach(function (k) {
+      if (typeof S.settings[k] !== 'undefined') p.settings[k] = S.settings[k];
+    });
+    return p;
+  }
+  function backupJson() {
+    return JSON.stringify({
+      app: 'English Brain Lab',
+      kind: 'liveacademy.backup',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      payload: backupPayload()
+    }, null, 2);
+  }
+  function parseBackup(raw) {
+    var text = String(raw == null ? '' : raw).trim();
+    if (!text) throw new Error('백업 내용이 비어 있어요.');
+    if (text.length > 2000000) throw new Error('백업 내용이 너무 커요(2MB 초과).');
+    var o;
+    try { o = JSON.parse(text); } catch (e) { throw new Error('JSON 형식이 아니에요. 백업 파일인지 확인해 주세요.'); }
+    if (!o || typeof o !== 'object' || isArr(o)) throw new Error('백업 형식이 아니에요.');
+    var p = (o.payload && typeof o.payload === 'object' && !isArr(o.payload)) ? o.payload : o;
+    var out = { progress: {}, days: {}, streak: { count: 0, last: '' }, settings: {} };
+    if (p.progress && typeof p.progress === 'object' && !isArr(p.progress)) {
+      Object.keys(p.progress).forEach(function (k) {
+        var v = p.progress[k];
+        if (!unitById(k) || !v || typeof v !== 'object' || !v.done) return;
+        var e = { done: true };
+        if (typeof v.at === 'string' && DATE_RE.test(v.at)) e.at = v.at;
+        var sc = Number(v.score);
+        e.score = isFinite(sc) ? Math.max(0, Math.min(100, Math.round(sc))) : 0;
+        out.progress[k] = e;
+      });
+    }
+    if (p.days && typeof p.days === 'object' && !isArr(p.days)) {
+      Object.keys(p.days).forEach(function (k) {
+        var n = Number(p.days[k]);
+        if (DATE_RE.test(k) && isFinite(n) && n >= 0) out.days[k] = Math.min(1000, Math.floor(n));
+      });
+    }
+    if (p.streak && typeof p.streak === 'object') {
+      var c = Number(p.streak.count);
+      out.streak.count = isFinite(c) && c > 0 ? Math.min(10000, Math.floor(c)) : 0;
+      out.streak.last = (typeof p.streak.last === 'string' && DATE_RE.test(p.streak.last)) ? p.streak.last : '';
+    }
+    var se = p.settings;
+    if (se && typeof se === 'object') {
+      if (se.theme === 'light' || se.theme === 'dark' || se.theme === 'system') out.settings.theme = se.theme;
+      if (se.rate === 0.7 || se.rate === 0.8 || se.rate === 1) out.settings.rate = se.rate;
+      if (typeof se.autoPlay === 'boolean') out.settings.autoPlay = se.autoPlay;
+      if (se.reviewMode === 'choice' || se.reviewMode === 'say') out.settings.reviewMode = se.reviewMode;
+    }
+    if (!Object.keys(out.progress).length && !Object.keys(out.days).length) {
+      throw new Error('복원할 학습 기록을 찾지 못했어요.');
+    }
+    return out;
+  }
+  function applyBackup(raw) {
+    var msgBox = $('#restore-msg');
+    if (msgBox) msgBox.textContent = '';
+    var data, msg;
+    try { data = parseBackup(raw); } catch (e) {
+      msg = (e && e.message) ? e.message : '백업을 읽지 못했어요.';
+      toast(msg);
+      if (msgBox) msgBox.textContent = msg;
+      return;
+    }
+    var nowCount = Object.keys(S.progress || {}).length;
+    var nextCount = Object.keys(data.progress || {}).length;
+    if (!window.confirm('백업 내용으로 복원할까요?\n\n지금 기록: ' + nowCount + '개 유닛\n백업 내용: ' + nextCount + '개 유닛 · 연속 ' + data.streak.count + '일\n\n지금 기록은 백업 내용으로 바뀝니다.')) return;
+    S.progress = data.progress;
+    S.days = data.days;
+    S.streak = data.streak;
+    Object.keys(data.settings || {}).forEach(function (k) { S.settings[k] = data.settings[k]; });
+    rate = S.settings.rate || 1;
+    save();
+    applyTheme();
+    closeSettings();
+    render();
+    toast(nextCount + '개 유닛 기록을 복원했어요.');
+  }
+  function showBackupText(text) {
+    var t = $('#backup-json');
+    if (t) {
+      t.value = text;
+      t.hidden = false;
+      if (t.focus) t.focus();
+      if (t.select) { try { t.select(); } catch (e) { } }
+    }
+    toast('클립보드가 막혀 있어요. 아래 칸의 내용을 직접 복사해 주세요.');
+  }
+  function downloadBackup() {
+    var text = backupJson();
+    var name = 'live-academy-backup-' + todayStr() + '.json';
+    try {
+      var blob = new Blob([text], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name;
+      a.rel = 'noopener';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 1500);
+      toast('백업 파일을 저장했어요: ' + name);
+    } catch (e) { showBackupText(text); }
+  }
+  function copyBackup() {
+    var text = backupJson();
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        toast('백업 JSON을 복사했어요. 메모에 붙여넣어 보관하세요.');
+      }).catch(function () { showBackupText(text); });
+      return;
+    }
+    showBackupText(text);
+  }
+  function restoreFromFile(file) {
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { toast('파일이 너무 커요(5MB 초과).'); return; }
+    if (typeof FileReader === 'undefined') { toast('이 브라우저에서는 파일을 읽을 수 없어요.'); return; }
+    var reader = new FileReader();
+    reader.onload = function () { applyBackup(reader.result); };
+    reader.onerror = function () { toast('파일을 읽지 못했어요.'); };
+    reader.readAsText(file);
+  }
+
+  /* ------------------------------------------------------------- settings */
+  function openSettings() {
+    var m = $('#modal');
+    if (!m) return;
+    m.hidden = false;
+    m.className = 'modal';
+    m.innerHTML = '<div class="modal-bg" data-act="settings-close"></div>' +
+      '<div class="sheet" role="dialog" aria-label="설정">' +
+      '<div class="sheet-grab"></div>' +
+      '<h2>설정</h2>' +
+
+      '<div class="field"><label>테마</label><div class="seg" id="theme-seg">' +
+        '<button data-act="set-theme" data-v="system" aria-pressed="' + (S.settings.theme === 'system') + '">시스템</button>' +
+        '<button data-act="set-theme" data-v="light" aria-pressed="' + (S.settings.theme === 'light') + '">라이트</button>' +
+        '<button data-act="set-theme" data-v="dark" aria-pressed="' + (S.settings.theme === 'dark') + '">다크</button>' +
+      '</div></div>' +
+
+      '<div class="field"><label>기본 재생 속도</label><div class="seg" id="rate-seg">' +
+        '<button data-act="set-rate" data-v="1" aria-pressed="' + (S.settings.rate === 1) + '">1.0x</button>' +
+        '<button data-act="set-rate" data-v="0.8" aria-pressed="' + (S.settings.rate === 0.8) + '">0.8x</button>' +
+        '<button data-act="set-rate" data-v="0.7" aria-pressed="' + (S.settings.rate === 0.7) + '">0.7x</button>' +
+      '</div><p class="hint">2단계 카드에서 1.0x / 0.8x / 아주 느리게를 바로 고를 수도 있어요.</p></div>' +
+
+      '<div class="field"><label>학습</label>' +
+        '<div class="switch"><div><span>자동 재생</span><small>2단계에서 핵심 문장을 바로 들려줍니다</small></div>' +
+          '<button class="tgl" data-act="toggle-autoplay" role="switch" aria-checked="' + !!S.settings.autoPlay + '" aria-label="자동 재생"></button></div>' +
+      '</div>' +
+
+      '<div class="field"><label>백업 / 복원</label>' +
+        '<div class="mic-row"><button class="btn" data-act="backup-file">파일로 저장</button>' +
+        '<button class="btn" data-act="backup-copy">JSON 복사</button></div>' +
+        '<textarea id="backup-json" hidden readonly aria-label="백업 JSON"></textarea>' +
+        '<p class="hint">복원은 파일을 고르거나 아래에 JSON을 붙여넣어 진행합니다.</p>' +
+        '<div class="mic-row" style="margin-top:8px"><button class="btn" data-act="restore-pick">파일에서 복원</button>' +
+        '<button class="btn" data-act="restore-text">붙여넣은 JSON 복원</button></div>' +
+        '<textarea id="restore-json" placeholder="여기에 백업 JSON을 붙여넣으세요" aria-label="복원할 JSON"></textarea>' +
+        '<input id="restore-file" type="file" accept="application/json,.json" hidden />' +
+        '<p class="hint" id="restore-msg"></p>' +
+      '</div>' +
+
+      '<div class="field"><label>위험</label>' +
+        '<button class="btn block danger" data-act="reset">학습 기록 모두 지우기</button>' +
+        '<p class="small">진도·연속 학습·학습한 날 기록이 삭제됩니다. 백업이 있으면 복원할 수 있어요.</p>' +
+      '</div>' +
+
+      '<button class="btn primary block" data-act="settings-close">닫기</button>' +
+      '</div>';
+  }
+  function closeSettings() {
+    var m = $('#modal');
+    if (!m) return;
+    m.hidden = true;
+    m.innerHTML = '';
+  }
+
+  /* ------------------------------------------------------------------ mic */
+  function handleMic(i) {
+    if (!srSupported()) {
+      toggleType(i, true);
+      toast('이 브라우저는 음성 인식을 지원하지 않아요. 직접 입력해 주세요.');
+      return;
+    }
+    var target = targetFor(i);
+    if (!target) return;
+    UI.listening = i;
+    renderLessonPartial();
+    listen(function (said) {
+      UI.listening = null;
+      recordSaid(i, said, target);
+    }, function (err) {
+      UI.listening = null;
+      renderLessonPartial();
+      if (err === 'not-allowed' || err === 'service-not-allowed') toast('마이크 권한이 필요해요. 브라우저 설정에서 허용해 주세요.');
+      else if (err !== 'aborted') toast('잘 들리지 않았어요. 다시 시도하거나 타이핑으로 입력해 주세요.');
+    });
+  }
+  function targetFor(i) {
+    if (!L) return '';
+    if (i === 'key') return L.unit.en;
+    if (/^v\d+$/.test(i)) return L.unit.variants[+i.slice(1)].en;
+    return '';
+  }
+  function recordSaid(i, said, target) {
+    if (!L) return;
+    L.said[i] = said;
+    var ev = evaluate(target, said);
+    L.res[i] = ev.pct;
+    L.done[i] = true;
+    if (i === 'key' && ev.pct >= 80) L.revealed.key = true;
+    renderLessonPartial();
+    toast(ev.pct >= 80 ? '좋아요, ' + ev.pct + '% 일치!' : '기록했어요 · ' + ev.pct + '% 일치');
+  }
+  function renderLessonPartial() {
+    if (!L) return;
+    var keyBox = $('#res-key');
+    if (keyBox && L.said.key) keyBox.innerHTML = resultHtml(L.unit.en, L.said.key);
+    L.unit.variants.forEach(function (v, i) {
+      var box = $('#res-v' + i);
+      if (box && L.said['v' + i]) box.innerHTML = resultHtml(v.en, L.said['v' + i]);
+    });
+    renderLesson();
+  }
+  function toggleType(i, force) {
+    var box = $('#type-' + i);
+    if (!box) return;
+    var want = force === true ? true : !!box.hidden;
+    box.hidden = !want;
+    if (want) {
+      var inp = box.querySelector('input');
+      if (inp && inp.focus) inp.focus();
+    }
+  }
+
+  /* --------------------------------------------------------------- render */
+  function render() {
+    if (UI.tab === 'home') renderHome();
+    else if (UI.tab === 'review') renderReview();
+    else renderStats();
+    updateChrome();
+    if (typeof window.scrollTo === 'function') window.scrollTo(0, 0);
+  }
+
+  /* --------------------------------------------------------------- events */
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!el) return;
+    var act = el.getAttribute('data-act');
+
+    if (act === 'tab') {
+      UI.tab = el.getAttribute('data-tab');
+      if (UI.tab !== 'review') R = null;
+      render();
+      return;
+    }
+    if (act === 'chapter') {
+      var cid = el.getAttribute('data-ch');
+      if (!cid) return;
+      UI.open = (UI.open === cid) ? '' : cid;
+      S.ui.chapter = UI.open;
+      save();
+      render();
+      return;
+    }
+    if (act === 'unit') { openUnit(el.getAttribute('data-id')); return; }
+    if (act === 'close-lesson') { closeLesson(); return; }
+    if (act === 'next') {
+      if (L && L.step < 4) { L.step++; renderLesson(); }
+      return;
+    }
+    if (act === 'prev') { if (L && L.step > 1) { L.step--; renderLesson(); } return; }
+    if (act === 'next-unit') { openUnit(el.getAttribute('data-id')); return; }
+    if (act === 'complete') {
+      if (!L) return;
+      var d = todayStr();
+      if (!isDone(L.id)) {
+        S.progress[L.id] = { done: true, at: d, score: L.res.key || 0 };
+        bumpStreak();
+        save();
+        toast('완료! 진도에 기록했어요.');
+      } else {
+        S.progress[L.id].at = d;
+        if (L.res.key) S.progress[L.id].score = L.res.key;
+        save();
+        toast('복습 기록을 저장했어요.');
+      }
+      var nx = nextUnitId(L.id);
+      if (nx) { openUnit(nx); } else { closeLesson(); }
+      return;
+    }
+    if (act === 'say') {
+      var txt = el.getAttribute('data-say') || '';
+      var r = parseFloat(el.getAttribute('data-rate')) || 1;
+      speak(txt, r);
+      return;
+    }
+    if (act === 'mic') { handleMic(el.getAttribute('data-i')); return; }
+    if (act === 'toggle-type') { toggleType(el.getAttribute('data-i')); return; }
+    if (act === 'submit-type') {
+      var i = el.getAttribute('data-i');
+      var box = $('#type-' + i);
+      var inp = $('#type-' + i + ' input') || (box ? box.querySelector('input') : null);
+      var val = (inp && inp.value || '').trim();
+      if (!val) { toast('문장을 입력해 주세요.'); return; }
+      var tgt = targetFor(i);
+      if (!tgt) return;
+      recordSaid(i, val, tgt);
+      if (inp) inp.value = '';
+      toggleType(i, false);
+      return;
+    }
+    if (act === 'reveal') {
+      var vi = el.getAttribute('data-i');
+      if (!L) return;
+      L.revealed[vi] = !L.revealed[vi];
+      renderLesson();
+      return;
+    }
+
+    /* review */
+    if (act === 'review-mode') {
+      S.settings.reviewMode = el.getAttribute('data-v');
+      save();
+      renderReview();
+      return;
+    }
+    if (act === 'review-start') { startReview(); renderReview(); return; }
+    if (act === 'review-opt') {
+      if (!R || R.answered) return;
+      var idx = +el.getAttribute('data-i');
+      var q = R.items[R.idx];
+      R.picked = idx;
+      R.pickedEn = q.options[idx];
+      R.answered = true;
+      if (R.pickedEn === q.unit.en) R.correct++;
+      renderReview();
+      return;
+    }
+    if (act === 'review-mic') {
+      if (!R || R.answered) return;
+      var qq = R.items[R.idx];
+      if (!srSupported()) { toggleType('rv', true); toast('음성 인식을 지원하지 않아요. 직접 입력해 주세요.'); return; }
+      listen(function (said) {
+        R.said = said; R.answered = true;
+        if (evaluate(qq.unit.en, said).pct >= 80) R.correct++;
+        renderReview();
+      }, function (err) {
+        if (err !== 'aborted') toast('잘 들리지 않았어요. 다시 시도해 주세요.');
+      });
+      toast('듣고 있어요…');
+      return;
+    }
+    if (act === 'review-say') {
+      if (!R || R.answered) return;
+      var ri = $('#rv-input');
+      var rv = (ri && ri.value || '').trim();
+      if (!rv) { toast('답을 입력해 주세요.'); return; }
+      R.said = rv; R.answered = true;
+      if (evaluate(R.items[R.idx].unit.en, rv).pct >= 80) R.correct++;
+      renderReview();
+      return;
+    }
+    if (act === 'review-next') {
+      if (!R) return;
+      if (R.idx < R.items.length - 1) { R.idx++; R.answered = false; R.said = ''; R.picked = null; renderReview(); }
+      else finishReview();
+      return;
+    }
+    if (act === 'review-again') { R = null; startReview(); renderReview(); return; }
+    if (act === 'review-close') { R = null; renderReview(); return; }
+
+    /* settings */
+    if (act === 'settings') { openSettings(); return; }
+    if (act === 'settings-close') { closeSettings(); return; }
+    if (act === 'backup-file') { downloadBackup(); return; }
+    if (act === 'backup-copy') { copyBackup(); return; }
+    if (act === 'restore-pick') { var rf = $('#restore-file'); if (rf && rf.click) rf.click(); return; }
+    if (act === 'restore-text') { var rt = $('#restore-json'); applyBackup(rt ? rt.value : ''); return; }
+    if (act === 'set-theme') {
+      S.settings.theme = el.getAttribute('data-v');
+      applyTheme(); save();
+      $$('#theme-seg button').forEach(function (b) { b.setAttribute('aria-pressed', String(b === el)); });
+      return;
+    }
+    if (act === 'set-rate') {
+      S.settings.rate = parseFloat(el.getAttribute('data-v'));
+      rate = S.settings.rate;
+      save();
+      var seg = el.parentNode;
+      if (seg && seg.querySelectorAll) $$('button', seg).forEach(function (b) { b.setAttribute('aria-pressed', String(b === el)); });
+      return;
+    }
+    if (act === 'toggle-autoplay') {
+      S.settings.autoPlay = !S.settings.autoPlay;
+      el.setAttribute('aria-checked', String(S.settings.autoPlay));
+      save();
+      return;
+    }
+    if (act === 'reset') {
+      if (window.confirm('학습 기록을 모두 지울까요? 되돌릴 수 없어요.')) {
+        S.progress = {}; S.days = {}; S.streak = { count: 0, last: '' };
+        R = null;
+        save(); closeSettings(); render();
+        toast('학습 기록을 초기화했어요.');
+      }
+      return;
+    }
+  });
+
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t && t.id === 'restore-file') {
+      var f = t.files && t.files[0];
+      restoreFromFile(f);
+      t.value = '';
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var t = e.target;
+    if (!t) return;
+    if (t.getAttribute && t.getAttribute('data-input') != null) {
+      var i = t.getAttribute('data-input');
+      var btn = document.querySelector('[data-act="submit-type"][data-i="' + i + '"]');
+      if (btn) btn.click();
+    } else if (t.id === 'rv-input') {
+      var b = document.querySelector('[data-act="review-say"]');
+      if (b) b.click();
+    }
+  });
+
+  var scrollHandler = function () {
+    var tb = document.querySelector('.topbar');
+    if (tb) {
+      if ((window.scrollY || 0) > 4) tb.classList.add('scrolled');
+      else tb.classList.remove('scrolled');
+    }
+  };
+  if (window.addEventListener) window.addEventListener('scroll', scrollHandler, { passive: true });
+
+  /* ------------------------------------------------------------------ boot */
+  load();
+  rate = S.settings.rate || 1;
+  applyTheme();
+  if (S.ui.chapter) UI.open = S.ui.chapter;
+  if (S.settings.autoPlay == null) S.settings.autoPlay = true;
+  render();
+
+  /* --------------------------------------------------- service worker (PWA) */
+  try {
+    var secure = typeof location !== 'undefined' &&
+      (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1');
+    if (secure && typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () { /* offline cache unavailable */ });
+      });
+    }
+  } catch (e) { /* non-browser environment */ }
+
+  window.EnglishBrainLab = {
+    state: S,
+    data: DATA,
+    units: UNITS,
+    evaluate: evaluate,
+    backupJson: backupJson,
+    restore: applyBackup,
+    open: openUnit,
+    reset: function () {
+      S.progress = {}; S.days = {}; S.streak = { count: 0, last: '' };
+      save(); R = null; render();
+    }
+  };
+})();
+
+</script>
+</body>
+</html>
