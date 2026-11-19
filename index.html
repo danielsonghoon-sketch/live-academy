@@ -75,7 +75,7 @@ html, body { margin: 0; padding: 0; }
 html { background: var(--bg); }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic",
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Liberation Sans", "FreeSans", sans-serif;
   background:
     radial-gradient(900px 420px at 78% -8%, rgba(16, 185, 129, 0.16), transparent 62%),
     radial-gradient(700px 380px at -10% 8%, rgba(13, 61, 90, 0.14), transparent 60%),
@@ -219,8 +219,9 @@ body {
 }
 .unit.done .unit-n { background: var(--brand); color: var(--on-brand); }
 .unit-txt { flex: 1; min-width: 0; }
-.unit-title { font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.38; }
-.unit-ko { font-size: 11px; color: var(--text-3); margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.unit-txt { display: block; }
+.unit-title { display: block; font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.38; }
+.unit-ko { display: block; font-size: 11px; color: var(--text-3); margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .unit-go { font-size: 11px; font-weight: 800; color: var(--brand); flex: none; }
 .unit.done .unit-go { color: var(--text-3); font-weight: 700; }
 
@@ -297,9 +298,13 @@ body {
   display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--text-3);
   border: 1px dashed var(--line); border-radius: var(--r-sm); padding: 10px 12px; margin-bottom: 16px;
 }
-.mask-hint b { color: var(--text-2); font-weight: 700; }
+.mask-hint b { color: var(--text-2); font-weight: 700; flex: none; white-space: nowrap; }
+.mask-hint span { flex: 1; min-width: 0; }
 
 .mic-row { display: flex; gap: 8px; }
+.mic-row .btn { white-space: nowrap; }
+.mic-row .btn.mic { min-width: 0; padding-left: 10px; padding-right: 10px; font-size: 13.5px; }
+.mic-row .btn.side { flex: 0 0 104px; padding-left: 8px; padding-right: 8px; font-size: 13px; }
 .btn {
   border: 1px solid var(--line); background: var(--surface); color: var(--text);
   border-radius: 14px; padding: 13px 16px; font: inherit; font-weight: 800; font-size: 14px;
@@ -374,7 +379,7 @@ html[data-theme="dark"] .fb.low { color: #fca5a5; }
 .mx.good .tag { background: var(--ok-soft); color: var(--ok); }
 .mx.bad .txt { color: var(--text-3); text-decoration: line-through; text-decoration-color: color-mix(in srgb, #dc2626 55%, transparent); }
 .mx.good .txt { color: var(--text); font-weight: 700; }
-.why { margin: 4px 0 0; font-size: 12px; color: var(--text-2); line-height: 1.62; }
+.why { margin: 10px 0 0; padding-top: 9px; border-top: 1px dashed var(--line); font-size: 12px; color: var(--text-2); line-height: 1.62; }
 
 /* step 3 */
 .drill-intro { font-size: 12.5px; color: var(--text-2); margin: 0 0 12px; }
@@ -1012,12 +1017,12 @@ textarea {
     h += '<p class="konote">영어 문장은 아직 보지 마세요. 지금 떠오르는 단어로 그냥 말해 보세요. 틀려도 괜찮아요.</p>';
     h += '<div class="mic-row">' +
       '<button class="btn mic" data-act="mic" data-i="key">' + I.mic + ' 말해보기</button>' +
-      '<button class="btn" data-act="toggle-type" data-i="key" style="flex:0 0 96px">' + I.keys + ' 타이핑</button>' +
+      '<button class="btn side" data-act="toggle-type" data-i="key">' + I.keys + ' 타이핑</button>' +
       '</div>';
     h += '<div class="typebox" id="type-key" hidden><input data-input="key" type="text" autocomplete="off" autocapitalize="off" placeholder="영어로 입력 후 Enter" />' +
       '<div style="margin-top:8px"><button class="btn block" data-act="submit-type" data-i="key">확인</button></div></div>';
     if (said) h += '<div id="res-key">' + resultHtml(u.en, said, true) + '</div>';
-    h += '<div class="mask-hint"><b>힌트</b> 정답을 몰라도 괜찮아요. 말해 본 뒤 2단계에서 비교하면 기억에 오래 남습니다.</div>';
+    h += '<div class="mask-hint"><b>힌트</b><span>정답을 몰라도 괜찮아요. 말해 본 뒤 2단계에서 비교하면 기억에 오래 남습니다.</span></div>';
     return h;
   }
   function step2() {
@@ -1167,7 +1172,7 @@ textarea {
     } else {
       html += '<div class="mic-row">' +
         '<button class="btn mic" data-act="review-mic">' + I.mic + ' 말하기</button>' +
-        '<button class="btn" data-act="toggle-type" data-i="rv" style="flex:0 0 96px">' + I.keys + ' 타이핑</button></div>' +
+        '<button class="btn side" data-act="toggle-type" data-i="rv">' + I.keys + ' 타이핑</button></div>' +
         '<div class="typebox" id="type-rv" hidden><input id="rv-input" type="text" autocomplete="off" placeholder="영어로 입력 후 Enter" />' +
         '<div style="margin-top:8px"><button class="btn block" data-act="review-say">확인</button></div></div>';
       if (R.answered) {
