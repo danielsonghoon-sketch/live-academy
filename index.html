@@ -1514,7 +1514,7 @@ textarea {
   function toggleType(i, force) {
     var box = $('#type-' + i);
     if (!box) return;
-    var want = force === true ? true : !!box.hidden;
+    var want = (typeof force === 'boolean') ? force : !!box.hidden;
     box.hidden = !want;
     if (want) {
       var inp = box.querySelector('input');
